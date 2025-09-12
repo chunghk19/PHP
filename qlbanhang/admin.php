@@ -4,6 +4,7 @@ require_once "controllers/categoryController.php";
 require_once "controllers/productController.php";
 require_once "controllers/orderController.php";
 require_once "controllers/userController.php";
+require_once "controllers/authController.php";
 
 // var_dump($_GET['page'], $_GET['action']);
 // die;
@@ -137,6 +138,23 @@ switch ($page) {
                 $controller->delete();
                 break;
 
+            default:
+                echo "Action không tồn tại!";
+        }
+        break;
+
+
+    case 'auth':
+        $controller = new AuthController();
+        
+        switch ($action) {
+            case 'login':
+                $controller->login();
+                break;
+
+            case 'logout':
+                $controller->logout();
+                break;
             default:
                 echo "Action không tồn tại!";
         }

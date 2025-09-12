@@ -2,15 +2,45 @@
 // File frontend.php - Router chính cho giao diện khách hàng
 session_start();
 
+// Include database config first
+require_once "config/database.php";
 require_once "controllers/frontendController.php";
+require_once "controllers/authController.php";
 
-// Lấy tham số page từ URL
+// Lấy tham số page và action từ URL
 $page = $_GET['page'] ?? 'home';
+$action = $_GET['action'] ?? '';
 
-// Khởi tạo controller
+// Khởi tạo controllers
 $controller = new FrontendController();
+$authController = new AuthController();
 
-// Route các trang
+// Ưu tiên xử lý authentication trước
+if (!empty($action)) {
+    switch ($action) {
+        case 'login':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $authController->login();
+            } else {
+                $authController->showLogin();
+            }
+            exit; // Dừng xử lý để không chạy page routes
+            
+        case 'register':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $authController->register();
+            } else {
+                $authController->showRegister();
+            }
+            exit; // Dừng xử lý để không chạy page routes
+            
+        case 'logout':
+            $authController->logout();
+            exit; // Dừng xử lý để không chạy page routes
+    }
+}
+
+// Route các trang chính
 switch ($page) {
     case 'home':
         $controller->home();
@@ -38,18 +68,6 @@ switch ($page) {
         
     case 'about':
         $controller->about();
-        break;
-        
-    case 'login':
-        $controller->login();
-        break;
-        
-    case 'register':
-        $controller->register();
-        break;
-        
-    case 'account':
-        $controller->account();
         break;
         
     default:

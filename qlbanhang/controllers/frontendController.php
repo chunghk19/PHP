@@ -20,11 +20,14 @@ class FrontendController {
 
     // Trang chủ
     public function home() {
+        $title = 'Trang chủ - TV Store';
         $categories = $this->categoryModel->getAll();
         $featuredProducts = $this->productModel->getFeatured(8); // Lấy 8 sản phẩm nổi bật
         $newProducts = $this->productModel->getLatest(8); // Lấy 8 sản phẩm mới nhất
         
+        // Bạn có thể chọn sử dụng layout hoặc file riêng
         include "views/frontend/pages/home.php";
+        // Hoặc sử dụng layout: $this->loadView('home', compact('title', 'categories', 'featuredProducts', 'newProducts'));
     }
 
     // Trang sản phẩm

@@ -99,6 +99,7 @@
                 <?php endif; ?>
 
                 <form action="/qlbanhang/admin.php?page=users&action=edit&id=<?php echo $user['id']; ?>" method="POST">
+                  <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">

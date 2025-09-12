@@ -7,7 +7,7 @@
     
     <!-- CSS Files -->
     <link href="/qlbanhang/public/assets/css/frontend/bootstrap.min.css" rel="stylesheet">
-    <link href="/qlbanhang/public/assets/css/frontend/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/qlbanhang/public/assets/css/frontend/slick.css" rel="stylesheet">
     <link href="/qlbanhang/public/assets/css/frontend/slick-theme.css" rel="stylesheet">
     <link href="/qlbanhang/public/assets/css/frontend/nouislider.min.css" rel="stylesheet">
@@ -44,19 +44,49 @@
                     </div>
                     <div class="col-md-6 text-end">
                         <div class="user-actions">
-                            <?php if (isset($_SESSION['user_id'])): ?>
-                                <a href="/qlbanhang/frontend.php?page=account" class="text-white text-decoration-none me-3">
-                                    <i class="fas fa-user"></i> Tài khoản
+                            <?php 
+                            // Xử lý refresh session nếu được yêu cầu
+                            if (isset($_GET['refresh_session'])) {
+                                session_destroy();
+                                session_start();
+                                header('Location: /qlbanhang/frontend.php');
+                                exit;
+                            }
+                            
+                            // Khởi tạo AuthController để check login status
+                            $rootPath = $_SERVER['DOCUMENT_ROOT'] . '/qlbanhang/';
+                            require_once $rootPath . 'controllers/authController.php';
+                            $authController = new AuthController();
+                            
+                            if ($authController->isLoggedIn()): 
+                                // Refresh session để đảm bảo dữ liệu mới nhất
+                                $authController->refreshSession();
+                                $currentUser = $authController->getCurrentUser();
+                            ?>
+                                <span class="text-white me-3">
+                                    <i class="fa fa-user"></i> Xin chào, <?= htmlspecialchars($currentUser['full_name'] ?? 'User') ?>
+                                    <?php if ($currentUser['role'] === 'admin'): ?>
+                                        <small class="badge bg-warning text-dark ms-1">Admin</small>
+                                    <?php endif; ?>
+                                </span>
+                                <?php if ($currentUser['role'] === 'admin'): ?>
+                                    <a href="/qlbanhang/admin.php" class="text-white text-decoration-none me-3">
+                                        <i class="fa fa-cog"></i> Quản trị
+                                    </a>
+                                <?php endif; ?>
+                                <a href="?refresh_session=1" class="text-white text-decoration-none me-2" title="Refresh session">
+                                    <i class="fa fa-refresh"></i>
                                 </a>
-                                <a href="/qlbanhang/frontend.php?page=logout" class="text-white text-decoration-none">
-                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                <a href="/qlbanhang/frontend.php?action=logout" class="text-white text-decoration-none">
+                                    <i class="fa fa-sign-out"></i> Đăng xuất
+                                </a>
                                 </a>
                             <?php else: ?>
-                                <a href="/qlbanhang/frontend.php?page=login" class="text-white text-decoration-none me-3">
-                                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                                <a href="/qlbanhang/frontend.php?action=login" class="text-white text-decoration-none me-3">
+                                    <i class="fa fa-sign-in"></i> Đăng nhập
                                 </a>
-                                <a href="/qlbanhang/frontend.php?page=register" class="text-white text-decoration-none">
-                                    <i class="fas fa-user-plus"></i> Đăng ký
+                                <a href="/qlbanhang/frontend.php?action=register" class="text-white text-decoration-none">
+                                    <i class="fa fa-user-plus"></i> Đăng ký
                                 </a>
                             <?php endif; ?>
                         </div>

@@ -52,10 +52,24 @@ class UserController {
     // Hiển thị form sửa người dùng
     public function edit() {
         $id = $_GET['id'] ?? 0;
+        
+        // Kiểm tra ID hợp lệ (phải > 0 vì AUTO_INCREMENT bắt đầu từ 1)
+        if (empty($id) || $id <= 0) {
+            echo "<script>alert('ID người dùng không hợp lệ!'); window.location.href='/qlbanhang/admin.php?page=users&action=index';</script>";
+            exit;
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $user = $this->userModel->getById($id);
+            if (!$user) {
+                echo "<script>alert('Không tìm thấy người dùng!'); window.location.href='/qlbanhang/admin.php?page=users&action=index';</script>";
+                exit;
+            }
             include "views/users/edit.php";
         } else {
+            // Lấy ID từ POST data khi submit form
+            $id = $_POST['id'] ?? 0;
+            
             // Xử lý cập nhật người dùng
             $full_name = $_POST['full_name'];
             $user_name = $_POST['user_name'];
@@ -63,6 +77,12 @@ class UserController {
             $email = $_POST['email'];
             $gender = $_POST['gender'];
             $role = $_POST['role'];
+
+            // Kiểm tra ID từ POST (phải > 0)
+            if (empty($id) || $id <= 0) {
+                echo "<script>alert('Lỗi: ID người dùng không hợp lệ!'); history.back();</script>";
+                exit;
+            }
 
             // Kiểm tra username đã tồn tại (trừ chính user này)
             if ($this->userModel->checkUserNameExists($user_name, $id)) {
