@@ -38,7 +38,7 @@ class CartController {
                     'id' => $product['id'],
                     'name' => $product['name'],
                     'price' => $product['price'],
-                    'image' => $product['images'], // Sửa từ 'image' thành 'images'
+                    'images' => $product['images'], // Thống nhất dùng 'images'
                     'quantity' => $quantity
                 ];
             }

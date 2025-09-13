@@ -23,6 +23,8 @@
 
  		<!-- Font Awesome Icon -->
  		<link rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/font-awesome.min.css">
+ 		<!-- Font Awesome CDN Backup -->
+ 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
  		<!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/style.css"/>
@@ -33,6 +35,69 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		
+		<style>
+		/* Navigation dropdown styles */
+		.main-nav > li {
+			position: relative !important;
+		}
+		
+		.main-nav li.dropdown {
+			position: relative !important;
+		}
+		
+		.main-nav .dropdown-menu {
+			position: absolute !important;
+			top: 100% !important;
+			left: 0 !important;
+			background: #fff !important;
+			border: 1px solid #e4e7ed !important;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+			border-radius: 0 !important;
+			min-width: 200px !important;
+			opacity: 0 !important;
+			visibility: hidden !important;
+			transform: translateY(-10px) !important;
+			transition: all 0.3s ease !important;
+			z-index: 1000 !important;
+			display: block !important;
+			list-style: none !important;
+			padding: 0 !important;
+			margin: 0 !important;
+		}
+		
+		.main-nav li.dropdown:hover .dropdown-menu {
+			opacity: 1 !important;
+			visibility: visible !important;
+			transform: translateY(0) !important;
+		}
+		
+		.dropdown-menu li {
+			display: block !important;
+			border-bottom: 1px solid #f0f0f0 !important;
+			width: 100% !important;
+			float: none !important;
+		}
+		
+		.dropdown-menu li:last-child {
+			border-bottom: none !important;
+		}
+		
+		.dropdown-menu li a {
+			display: block !important;
+			padding: 10px 15px !important;
+			color: #333 !important;
+			text-decoration: none !important;
+			transition: all 0.3s ease !important;
+			text-transform: none !important;
+			font-size: 14px !important;
+		}
+		
+		.dropdown-menu li a:hover {
+			background: #d10024 !important;
+			color: #fff !important;
+		}
+		</style>
 
     </head>
 	<body>
@@ -170,13 +235,21 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+						<li class="active"><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
+						<li class="dropdown" style="position: relative;">
+							<a href="/qlbanhang/frontend.php?page=products" class="dropdown-toggle">
+								Tất cả sản phẩm <i class="fa fa-angle-down"></i>
+							</a>
+							<ul class="dropdown-menu" style="position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e4e7ed; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; display: block; list-style: none; padding: 0; margin: 0;">
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=1" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi OLED</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=2" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi 4K</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=3" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=4" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=5" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=6" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
+								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=7" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
+							</ul>
+						</li>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -524,6 +597,38 @@
 		<script src="/qlbanhang/public/assets/js/frontend/nouislider.min.js"></script>
 		<script src="/qlbanhang/public/assets/js/frontend/jquery.zoom.min.js"></script>
 		<script src="/qlbanhang/public/assets/js/frontend/main.js"></script>
+		
+		<script>
+		// Navigation dropdown functionality  
+		document.addEventListener('DOMContentLoaded', function() {
+			const navDropdowns = document.querySelectorAll('.main-nav .dropdown');
+			console.log('🔍 Found navigation dropdowns in checkout.php:', navDropdowns.length);
+			
+			navDropdowns.forEach(function(dropdown) {
+				const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+				console.log('📋 Dropdown menu found:', dropdownMenu);
+				
+				if (dropdownMenu) {
+					// Mouse enter
+					dropdown.addEventListener('mouseenter', function() {
+						console.log('🖱️ Mouse enter dropdown in checkout.php');
+						dropdownMenu.style.opacity = '1';
+						dropdownMenu.style.visibility = 'visible';
+						dropdownMenu.style.transform = 'translateY(0)';
+						dropdownMenu.style.display = 'block';
+					});
+					
+					// Mouse leave
+					dropdown.addEventListener('mouseleave', function() {
+						console.log('🖱️ Mouse leave dropdown in checkout.php');
+						dropdownMenu.style.opacity = '0';
+						dropdownMenu.style.visibility = 'hidden';
+						dropdownMenu.style.transform = 'translateY(-10px)';
+					});
+				}
+			});
+		});
+		</script>
 
 	</body>
 </html>

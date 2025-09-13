@@ -189,32 +189,22 @@
                                 <i class="fas fa-home"></i> Trang chủ
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/qlbanhang/frontend.php?page=products">
-                                <i class="fas fa-list"></i> Sản phẩm
-                            </a>
-                        </li>
                         
-                        <!-- Categories Dropdown -->
+                        <!-- Products Dropdown -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" 
+                            <a class="nav-link dropdown-toggle" href="/qlbanhang/frontend.php?page=products" id="productsDropdown" 
                                role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-th-large"></i> Danh mục
+                                <i class="fas fa-tv"></i> Tất cả sản phẩm
                             </a>
-                            <ul class="dropdown-menu" id="categories-menu">
-                                <!-- Categories sẽ được load động bằng JavaScript -->
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=1">Tivi OLED</a></li>
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=2">Tivi 4K</a></li>
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=3">Tivi Samsung</a></li>
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=4">Tivi LG</a></li>
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=5">Tivi Sony</a></li>
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=6">Tivi Xiaomi</a></li>
+                                <li><a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=7">Tivi Toshiba</a></li>
                             </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/qlbanhang/frontend.php?page=about">
-                                <i class="fas fa-info-circle"></i> Về chúng tôi
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/qlbanhang/frontend.php?page=contact">
-                                <i class="fas fa-phone"></i> Liên hệ
-                            </a>
                         </li>
                     </ul>
                 </div>
