@@ -6,6 +6,7 @@ session_start();
 require_once "config/database.php";
 require_once "controllers/frontendController.php";
 require_once "controllers/authController.php";
+require_once "controllers/cartController.php";
 
 // Lấy tham số page và action từ URL
 $page = $_GET['page'] ?? 'home';
@@ -14,8 +15,9 @@ $action = $_GET['action'] ?? '';
 // Khởi tạo controllers
 $controller = new FrontendController();
 $authController = new AuthController();
+$cartController = new CartController();
 
-// Ưu tiên xử lý authentication trước
+// Ưu tiên xử lý authentication và cart actions trước
 if (!empty($action)) {
     switch ($action) {
         case 'login':
@@ -37,6 +39,27 @@ if (!empty($action)) {
         case 'logout':
             $authController->logout();
             exit; // Dừng xử lý để không chạy page routes
+            
+        // Cart actions
+        case 'add-to-cart':
+            $cartController->addToCart();
+            exit;
+            
+        case 'remove-from-cart':
+            $cartController->removeFromCart();
+            exit;
+            
+        case 'update-cart':
+            $cartController->updateQuantity();
+            exit;
+            
+        case 'get-cart':
+            $cartController->getCart();
+            exit;
+            
+        case 'clear-cart':
+            $cartController->clearCart();
+            exit;
     }
 }
 

@@ -126,14 +126,50 @@
                     </div>
 
                     <!-- Cart -->
-                    <div class="col-md-3 text-end">
-                        <a href="/qlbanhang/frontend.php?page=cart" class="btn btn-outline-primary position-relative">
-                            <i class="fas fa-shopping-cart"></i> 
-                            Giỏ hàng
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <span id="cart-count">0</span>
-                            </span>
-                        </a>
+                    <div>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Giỏ hàng</span>
+                                <div class="qty" id="cart-count"><?php echo isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0; ?></div>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list" id="cart-items">
+                                    <?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
+                                        <?php 
+                                        $totalPrice = 0;
+                                        foreach ($_SESSION['cart'] as $item): 
+                                            $totalPrice += $item['price'] * $item['quantity'];
+                                        ?>
+                                            <div class="product-widget">
+                                                <div class="product-img">
+                                                    <img src="/qlbanhang/public/uploads/products/<?php echo $item['image']; ?>" alt="">
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name"><a href="#"><?php echo htmlspecialchars($item['name']); ?></a></h3>
+                                                    <h4 class="product-price"><span class="qty"><?php echo $item['quantity']; ?>x</span><?php echo number_format($item['price']); ?>đ</h4>
+                                                </div>
+                                                <button class="delete remove-from-cart" data-product-id="<?php echo $item['id']; ?>"><i class="fa fa-close"></i></button>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="text-center p-3">
+                                            <p>Giỏ hàng trống</p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
+                                    <div class="cart-summary">
+                                        <small><?php echo array_sum(array_column($_SESSION['cart'], 'quantity')); ?> sản phẩm đã chọn</small>
+                                        <h5>TỔNG: <?php echo number_format($totalPrice ?? 0); ?>đ</h5>
+                                    </div>
+                                    <div class="cart-btns">
+                                        <a href="/qlbanhang/frontend.php?page=cart">Xem giỏ hàng</a>
+                                        <a href="/qlbanhang/frontend.php?page=checkout">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

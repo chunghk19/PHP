@@ -1,3 +1,19 @@
+<?php
+// Debug: kiểm tra dữ liệu được truyền từ controller
+if (!isset($featuredProducts)) {
+    // Nếu không có dữ liệu từ controller, load trực tiếp
+    require_once __DIR__ . '/../../../config/database.php';
+    require_once __DIR__ . '/../../../models/product.php';
+    require_once __DIR__ . '/../../../models/category.php';
+    
+    $productModel = new Product();
+    $categoryModel = new Category();
+    
+    $featuredProducts = $productModel->getFeatured(8);
+    $newProducts = $productModel->getLatest(8);
+    $categories = $categoryModel->getAll();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -5,7 +21,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Electro - HTML Ecommerce Template</title>
+		<title>TV Store - Cửa hàng điện tử</title>
 
 		<!-- Google font -->
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -39,7 +55,6 @@
 						<li><a href="#"><i class="fa fa-map-marker"></i> I-tech</a></li>
 					</ul>
 					<ul class="header-links pull-right">
-						<!-- <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li> -->
 						<?php 
 						// Khởi tạo AuthController để check login status
 						if (!class_exists('AuthController')) {
@@ -105,24 +120,12 @@
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
-								<!-- Wishlist -->
-								<!-- <div>
-									<a href="#">
-										<i class="fa fa-heart-o"></i>
-										<span>Your Wishlist</span>
-										<div class="qty">2</div>
-									</a>
-								</div> -->
-								<!-- /Wishlist -->
-
 								<!-- Cart -->
-								<div class="dropdown">
+								<div>
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
-										<span>Giỏ hàng
-
-                                        </span>
-										<div class="qty">3</div>
+										<span>Giỏ hàng</span>
+										<div class="qty">0</div>
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
@@ -133,17 +136,6 @@
 												<div class="product-body">
 													<h3 class="product-name"><a href="#">product name goes here</a></h3>
 													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="/qlbanhang/public/assets/img/frontend/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
 												</div>
 												<button class="delete"><i class="fa fa-close"></i></button>
 											</div>
@@ -188,13 +180,16 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="#">Trang chủ</a></li>
-						<li><a href="#">Khuyến mãi</a></li>
-						<li><a href="#">Danh mục</a></li>
-						<li><a href="#">Tivi OLED</a></li>
-						<li><a href="#">Tivi 4k</a></li>
-						<!-- <li><a href="#">Máy ảnh</a></li>
-						<li><a href="#">Accessories</a></li> -->
+						<li class="active"><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
+						<li><a href="/qlbanhang/frontend.php?page=products">Tất cả sản phẩm</a></li>
+						<?php if (isset($categories) && !empty($categories)): ?>
+							<?php foreach ($categories as $category): ?>
+								<li><a href="/qlbanhang/frontend.php?page=products&category=<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></a></li>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<li><a href="#">Tivi OLED</a></li>
+							<li><a href="#">Tivi 4K</a></li>
+						<?php endif; ?>
 					</ul>
 					<!-- /NAV -->
 				</div>
@@ -288,169 +283,51 @@
 								<!-- tab -->
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
+										<?php if (isset($newProducts) && !empty($newProducts)): ?>
+											<?php foreach ($newProducts as $product): ?>
+												<!-- product -->
+												<div class="product">
+													<div class="product-img">
+														<?php if (!empty($product['images'])): ?>
+															<img src="/qlbanhang/public/uploads/products/<?= htmlspecialchars($product['images']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+														<?php else: ?>
+															<img src="/qlbanhang/public/assets/img/frontend/no-image.png" alt="<?= htmlspecialchars($product['name']) ?>">
+														<?php endif; ?>
+														<div class="product-label">
+															<span class="new">MỚI</span>
+														</div>
+													</div>
+													<div class="product-body">
+														<p class="product-category"><?= htmlspecialchars($product['category_name'] ?? 'Chưa phân loại') ?></p>
+														<h3 class="product-name"><a href="/qlbanhang/frontend.php?page=product-detail&id=<?= $product['id'] ?>"><?= htmlspecialchars($product['name']) ?></a></h3>
+														<h4 class="product-price"><?= number_format($product['price'], 0, ',', '.') ?>đ</h4>
+														<div class="product-rating">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														</div>
+														<div class="product-btns">
+															<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
+															<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
+															<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
+														</div>
+													</div>
+													<div class="add-to-cart">
+														<button class="add-to-cart-btn" data-product-id="<?= $product['id'] ?>"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+													</div>
 												</div>
+												<!-- /product -->
+											<?php endforeach; ?>
+										<?php else: ?>
+											<div class="text-center">
+												<p>Chưa có sản phẩm nào.</p>
 											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Tivi Xiaomi A Pro 4K 55 inch QLED 2026</a></h3>
-												<h4 class="product-price">10.290.000 <del class="product-old-price">12.290.000đ</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product02.png" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Smart Tivi Samsung UHD 4K 43 inch 2024</a></h3>
-												<h4 class="product-price">6.690.000đ<del class="product-old-price">7.290.000đ</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product03.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Smart Tivi Coocaa FHD 43 inch 43S3U+</a></h3>
-												<h4 class="product-price">9.800.000đ <del class="product-old-price">9.900.000đ</del></h4>
-												<div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product04.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Google tivi TCL 4K 55 inch 2024</a></h3>
-												<h4 class="product-price">7.790.000đ <del class="product-old-price">9.990.000đ</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product05.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">Smart Tivi Samsung UHD 4K 55 INCH 2024</a></h3>
-												<h4 class="product-price">9.990.000đ<del class="product-old-price">10.990.000đ</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-											</div>
-										</div>
-										<!-- /product -->
+										<?php endif; ?>
 									</div>
 									<div id="slick-nav-1" class="products-slick-nav"></div>
 								</div>
-								<!-- /tab -->
-							</div>
-						</div>
-					</div>
-					<!-- Products tab & slick -->
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
 
 		<!-- HOT DEAL SECTION -->
 		<div id="hot-deal" class="section">
@@ -508,13 +385,17 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">Bán chạy</h3>
+							<h3 class="title">Sản phẩm nổi bật</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a data-toggle="tab" href="#tab2">Tivi OLED</a></li>
-									<li><a data-toggle="tab" href="#tab2">Tivi 4K</a></li>
-									<li><a data-toggle="tab" href="#tab2">Tivi QLED</a></li>
-									<!-- <li><a data-toggle="tab" href="#tab2">Accessories</a></li> -->
+									<?php if (isset($categories) && !empty($categories)): ?>
+										<?php foreach (array_slice($categories, 0, 3) as $index => $category): ?>
+											<li <?= $index === 0 ? 'class="active"' : '' ?>><a data-toggle="tab" href="#tab2"><?= htmlspecialchars($category['name']) ?></a></li>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<li class="active"><a data-toggle="tab" href="#tab2">Tivi OLED</a></li>
+										<li><a data-toggle="tab" href="#tab2">Tivi 4K</a></li>
+									<?php endif; ?>
 								</ul>
 							</div>
 						</div>
@@ -528,153 +409,61 @@
 								<!-- tab -->
 								<div id="tab2" class="tab-pane fade in active">
 									<div class="products-slick" data-nav="#slick-nav-2">
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product06.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
+										<?php if (isset($featuredProducts) && !empty($featuredProducts)): ?>
+											<?php foreach ($featuredProducts as $product): ?>
+												<!-- product -->
+												<div class="product">
+													<div class="product-img">
+														<?php if (!empty($product['images'])): ?>
+															<img src="/qlbanhang/public/uploads/products/<?= htmlspecialchars($product['images']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+														<?php else: ?>
+															<img src="/qlbanhang/public/assets/img/frontend/no-image.png" alt="<?= htmlspecialchars($product['name']) ?>">
+														<?php endif; ?>
+														<div class="product-label">
+															<span class="sale">NỔI BẬT</span>
+														</div>
+													</div>
+													<div class="product-body">
+														<p class="product-category"><?= htmlspecialchars($product['category_name'] ?? 'Chưa phân loại') ?></p>
+														<h3 class="product-name"><a href="/qlbanhang/frontend.php?page=product-detail&id=<?= $product['id'] ?>"><?= htmlspecialchars($product['name']) ?></a></h3>
+														<h4 class="product-price"><?= number_format($product['price'], 0, ',', '.') ?>đ</h4>
+														<div class="product-rating">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														</div>
+														<div class="product-btns">
+															<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>
+															<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">So sánh</span></button>
+															<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
+														</div>
+													</div>
+													<div class="add-to-cart">
+														<button class="add-to-cart-btn" data-product-id="<?= $product['id'] ?>"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+													</div>
 												</div>
+												<!-- /product -->
+											<?php endforeach; ?>
+										<?php else: ?>
+											<div class="text-center">
+												<p>Chưa có sản phẩm nổi bật nào.</p>
 											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product07.png" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product08.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product09.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+										<?php endif; ?>
 									</div>
 									<div id="slick-nav-2" class="products-slick-nav"></div>
 								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
 								<!-- /tab -->
 							</div>
 						</div>
@@ -687,335 +476,7 @@
 		</div>
 		<!-- /SECTION -->
 
-		<!-- SECTION -->
-		<div class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-4 col-xs-6">
-						<div class="section-title">
-							<h4 class="title">Bán chạy</h4>
-							<div class="section-nav">
-								<div id="slick-nav-3" class="products-slick-nav"></div>
-							</div>
-						</div>
 
-						<div class="products-widget-slick" data-nav="#slick-nav-3">
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product07.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product08.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product09.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product02.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product03.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-4 col-xs-6">
-						<div class="section-title">
-							<h4 class="title">Bán chạy</h4>
-							<div class="section-nav">
-								<div id="slick-nav-4" class="products-slick-nav"></div>
-							</div>
-						</div>
-
-						<div class="products-widget-slick" data-nav="#slick-nav-4">
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product04.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product06.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product07.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product08.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product09.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-						</div>
-					</div>
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<div class="col-md-4 col-xs-6">
-						<div class="section-title">
-							<h4 class="title">Bán chạy</h4>
-							<div class="section-nav">
-								<div id="slick-nav-5" class="products-slick-nav"></div>
-							</div>
-						</div>
-
-						<div class="products-widget-slick" data-nav="#slick-nav-5">
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product02.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product03.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product04.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="/qlbanhang/public/assets/img/frontend/product06.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
-
-		<!-- NEWSLETTER -->
-		<div id="newsletter" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<div class="newsletter">
-							<p>Đăng ký để nhận <strong>THÔNG TIN MỚI</strong></p>
-							<form>
-								<input class="input" type="email" placeholder="Nhập email của bạn">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng ký</button>
-							</form>
-							<ul class="newsletter-follow">
-								<li>
-									<a href="#"><i class="fa fa-facebook"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-instagram"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /NEWSLETTER -->
 
 		<!-- FOOTER -->
 		<footer id="footer">
@@ -1112,6 +573,190 @@
 			<!-- /bottom footer -->
 		</footer>
 		<!-- /FOOTER -->
+
+		<!-- jQuery Plugins -->
+		<script src="/qlbanhang/public/assets/js/frontend/jquery.min.js"></script>
+		<script src="/qlbanhang/public/assets/js/frontend/bootstrap.min.js"></script>
+		<script src="/qlbanhang/public/assets/js/frontend/slick.min.js"></script>
+		<script src="/qlbanhang/public/assets/js/frontend/nouislider.min.js"></script>
+		<script src="/qlbanhang/public/assets/js/frontend/jquery.zoom.min.js"></script>
+		<script src="/qlbanhang/public/assets/js/frontend/main.js"></script>
+		
+		<!-- Cart Script -->
+		<script>
+			console.log('🛒 CART SCRIPT LOADED IN HOME.PHP');
+			
+			// Toggle cart dropdown
+			function toggleCart(event) {
+				event.preventDefault();
+				const dropdown = document.querySelector('.dropdown');
+				const cartDropdown = document.getElementById('cart-dropdown');
+				
+				dropdown.classList.toggle('open');
+				
+				// Close when clicking outside
+				if (dropdown.classList.contains('open')) {
+					document.addEventListener('click', function closeCart(e) {
+						if (!dropdown.contains(e.target)) {
+							dropdown.classList.remove('open');
+							document.removeEventListener('click', closeCart);
+						}
+					});
+				}
+			}
+			
+			function updateCartDisplay(cart) {
+				console.log('📊 Updating cart display with:', cart);
+				
+				// Cập nhật số lượng
+				const cartCountElement = document.getElementById('cart-count');
+				const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+				if (cartCountElement) {
+					cartCountElement.textContent = totalItems;
+				}
+				
+				// Cập nhật dropdown với giao diện gốc
+				const cartItemsElement = document.getElementById('cart-items');
+				if (cartItemsElement) {
+					if (cart.length === 0) {
+						cartItemsElement.innerHTML = '<div class="text-center p-3"><p>Giỏ hàng trống</p></div>';
+					} else {
+						let html = '';
+						let totalPrice = 0;
+						
+						cart.forEach(item => {
+							totalPrice += item.price * item.quantity;
+							html += `
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="/qlbanhang/public/uploads/products/${item.image}" alt="">
+									</div>
+									<div class="product-body">
+										<h3 class="product-name"><a href="#">${item.name}</a></h3>
+										<h4 class="product-price"><span class="qty">${item.quantity}x</span>${new Intl.NumberFormat('vi-VN').format(item.price)}đ</h4>
+									</div>
+									<button class="delete remove-from-cart" data-product-id="${item.id}"><i class="fa fa-close"></i></button>
+								</div>
+							`;
+						});
+						
+						cartItemsElement.innerHTML = html;
+						
+						// Cập nhật summary
+						const summaryElement = cartItemsElement.nextElementSibling;
+						if (summaryElement && summaryElement.classList.contains('cart-summary')) {
+							summaryElement.innerHTML = `
+								<small>${totalItems} sản phẩm đã chọn</small>
+								<h5>TỔNG: ${new Intl.NumberFormat('vi-VN').format(totalPrice)}đ</h5>
+							`;
+						}
+						
+						// Thêm event listener cho nút xóa
+						cartItemsElement.querySelectorAll('.remove-from-cart').forEach(button => {
+							button.addEventListener('click', function() {
+								const productId = this.dataset.productId;
+								removeFromCart(productId);
+							});
+						});
+					}
+				}
+			}
+
+			function removeFromCart(productId) {
+				console.log('🗑️ Removing product:', productId);
+				
+				fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					body: `product_id=${productId}`
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log('📄 Remove response:', data);
+					if (data.success) {
+						updateCartDisplay(data.cart);
+					} else {
+						alert('❌ Có lỗi xảy ra khi xóa sản phẩm');
+					}
+				})
+				.catch(error => {
+					console.error('❌ Remove error:', error);
+					alert('❌ Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng');
+				});
+			}
+			
+			// Simple direct approach
+			document.addEventListener('DOMContentLoaded', function() {
+				console.log('🟢 DOM ready - attaching cart events');
+				
+				// Event listener cho các nút xóa đã có sẵn trong header
+				document.querySelectorAll('.remove-from-cart').forEach(button => {
+					button.addEventListener('click', function() {
+						const productId = this.dataset.productId;
+						console.log('🗑️ Remove from cart button clicked for product:', productId);
+						removeFromCart(productId);
+					});
+				});
+				
+				// Find all add to cart buttons
+				const buttons = document.querySelectorAll('.add-to-cart-btn');
+				console.log('🔍 Found buttons:', buttons.length);
+				
+				buttons.forEach(function(button, index) {
+					console.log('🎯 Button ' + index + ':', button);
+					console.log('📦 Product ID:', button.getAttribute('data-product-id'));
+					
+					button.addEventListener('click', function(e) {
+						console.log('🔥 BUTTON CLICKED!');
+						e.preventDefault();
+						e.stopPropagation();
+						
+						const productId = this.getAttribute('data-product-id');
+						console.log('🛍️ Adding product:', productId);
+						
+						// Simple AJAX
+						const formData = new FormData();
+						formData.append('product_id', productId);
+						formData.append('quantity', 1);
+						
+						console.log('📡 Sending request...');
+						
+						fetch('/qlbanhang/frontend.php?action=add-to-cart', {
+							method: 'POST',
+							body: formData
+						})
+						.then(response => {
+							console.log('📥 Response:', response.status);
+							return response.text();
+						})
+						.then(data => {
+							console.log('📄 Response data:', data);
+							
+							try {
+								const json = JSON.parse(data);
+								console.log('✅ JSON:', json);
+								
+								if (json.success) {
+									alert('🎉 Thêm vào giỏ hàng thành công!');
+									updateCartDisplay(json.cart);
+								} else {
+									alert('❌ Lỗi: ' + json.message);
+								}
+							} catch (e) {
+								console.error('❌ Parse error:', e);
+								alert('❌ Lỗi xử lý phản hồi');
+							}
+						})
+						.catch(error => {
+							console.error('❌ Error:', error);
+							alert('❌ Lỗi: ' + error.message);
+						});
+					});
+				});
+			});
+		</script>
 
 		<!-- jQuery Plugins -->
 		<script src="/qlbanhang/public/assets/js/frontend/jquery.min.js"></script>
