@@ -68,7 +68,12 @@ class FrontendController {
         
         $relatedProducts = $this->productModel->getByCategory($product['category_id'], 1, 4);
         
-        include "views/frontend/pages/product-detail.php";
+        // Lấy tất cả categories cho navigation
+        $categories = $this->categoryModel->getAll();
+        
+        $title = htmlspecialchars($product['name']) . ' - TV Store';
+        
+        include "views/frontend/pages/product.php";
     }
 
     // Giỏ hàng

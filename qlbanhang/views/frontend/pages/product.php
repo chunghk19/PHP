@@ -1,3 +1,18 @@
+<?php
+// Debug: kiểm tra dữ liệu được truyền từ controller
+if (!isset($product)) {
+    // Nếu không có dữ liệu từ controller, redirect về trang chủ
+    header('Location: /qlbanhang/frontend.php');
+    exit;
+}
+
+// Load cần thiết các model và controller để check session
+if (!isset($categories)) {
+    require_once __DIR__ . '/../../../models/category.php';
+    $categoryModel = new Category();
+    $categories = $categoryModel->getAll();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -6,7 +21,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-		<title>Electro - HTML Ecommerce Template</title>
+		<title><?= isset($product) ? htmlspecialchars($product['name']) . ' - TV Store' : 'Chi tiết sản phẩm - TV Store' ?></title>
 
  		<!-- Google font -->
  		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -29,14 +44,181 @@
  		<!-- Custom stlylesheet -->
  		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/style.css"/>
 
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
+	
 		
 		<style>
+		/* Cart notification styles */
+		.cart-notification {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background: #28a745;
+			color: white;
+			padding: 15px 20px;
+			border-radius: 5px;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+			z-index: 9999;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			transform: translateX(100%);
+			transition: transform 0.3s ease;
+		}
+		
+		.cart-notification.show {
+			transform: translateX(0);
+		}
+		
+		.cart-notification i {
+			font-size: 20px;
+		}
+		
+		.cart-notification.error {
+			background: #dc3545;
+		}
+		
+		.cart-notification {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background: #28a745;
+			color: white;
+			padding: 15px 20px;
+			border-radius: 5px;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+			z-index: 9999;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			transform: translateX(100%);
+			transition: transform 0.3s ease;
+		}
+		
+		.cart-notification.show {
+			transform: translateX(0);
+		}
+		
+		.cart-notification i {
+			font-size: 20px;
+		}
+		
+		.cart-notification.error {
+			background: #dc3545;
+		}
+
+		/* Cart dropdown visibility fix */
+		.header-ctn > div {
+			position: relative;
+		}
+		
+		.cart-dropdown {
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s ease;
+		}
+		
+		.header-ctn > div:hover .cart-dropdown {
+			opacity: 1;
+			visibility: visible;
+		}
+		
+		.cart-dropdown.show {
+			opacity: 1 !important;
+			visibility: visible !important;
+		}
+
+		/* Cart dropdown content styling */
+		.cart-list {
+			max-height: 300px;
+			overflow-y: auto;
+			padding: 15px;
+		}
+		
+		.product-widget {
+			display: flex;
+			align-items: center;
+			padding: 10px 0;
+			border-bottom: 1px solid #eee;
+			position: relative;
+		}
+		
+		.product-widget:last-child {
+			border-bottom: none;
+		}
+		
+		.product-widget .product-img {
+			width: 50px;
+			height: 50px;
+			margin-right: 10px;
+		}
+		
+		.product-widget .product-img img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		
+		.product-widget .product-body {
+			flex: 1;
+		}
+		
+		.product-widget .product-name {
+			font-size: 14px;
+			margin: 0 0 5px 0;
+		}
+		
+		.product-widget .product-price {
+			font-size: 12px;
+			color: #D10024;
+			margin: 0;
+		}
+		
+		.product-widget .delete {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 14px;
+			width: 14px;
+			text-align: center;
+			font-size: 10px;
+			padding: 0;
+			background: #1e1f29;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+		}
+		
+		.product-widget .delete:hover {
+			background: #D10024;
+		}
+		
+		.cart-summary {
+			padding: 15px;
+			border-top: 1px solid #eee;
+			text-align: center;
+		}
+		
+		.cart-btns {
+			padding: 15px;
+			border-top: 1px solid #eee;
+		}
+		
+		.cart-btns a {
+			display: block;
+			padding: 8px 15px;
+			margin-bottom: 5px;
+			background: #D10024;
+			color: white;
+			text-decoration: none;
+			text-align: center;
+			border-radius: 3px;
+		}
+		
+		.cart-btns a:hover {
+			background: #b8001f;
+			color: white;
+		}
+
 		/* Navigation dropdown styles */
 		.main-nav > li {
 			position: relative !important;
@@ -97,6 +279,37 @@
 			background: #d10024 !important;
 			color: #fff !important;
 		}
+
+		/* Fix search form layout */
+		.header-search form {
+			display: flex !important;
+			align-items: stretch !important;
+			position: relative !important;
+		}
+		
+		.header-search .input-select {
+			margin-right: -4px !important;
+			border-radius: 40px 0px 0px 40px !important;
+			min-width: 160px !important;
+			flex-shrink: 0 !important;
+		}
+		
+		.header-search .input {
+			margin-right: -4px !important;
+			border-radius: 0 !important;
+			flex: 1 !important;
+		}
+		
+		.header-search .search-btn {
+			height: 40px !important;
+			width: 100px !important;
+			background: #d10024 !important;
+			color: #fff !important;
+			font-weight: 700 !important;
+			border: none !important;
+			border-radius: 0px 40px 40px 0px !important;
+			flex-shrink: 0 !important;
+		}
 		</style>
 
     </head>
@@ -107,13 +320,36 @@
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> +84-123-456-789</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> support@tvstore.vn</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> Hà Nội, Việt Nam</a></li>
 					</ul>
 					<ul class="header-links pull-right">
-						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-						<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+						<!-- <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li> -->
+						<?php
+						// Khởi tạo AuthController để check login status
+						require_once __DIR__ . '/../../../controllers/authController.php';
+						$authController = new AuthController();
+						
+						if ($authController->isLoggedIn()): 
+							$currentUser = $authController->getCurrentUser();
+						?>
+							<li>
+								<a href="#">
+									<i class="fa fa-user-o"></i> Xin chào, <?= htmlspecialchars($currentUser['full_name'] ?? 'User') ?>
+									<?php if ($currentUser['role'] === 'admin'): ?>
+										<small style="background: #ffc107; color: #000; padding: 2px 5px; border-radius: 3px; font-size: 10px; margin-left: 5px;">Admin</small>
+									<?php endif; ?>
+								</a>
+							</li>
+							<?php if ($currentUser['role'] === 'admin'): ?>
+								<li><a href="/qlbanhang/admin.php"><i class="fa fa-cog"></i> Quản trị</a></li>
+							<?php endif; ?>
+							<li><a href="/qlbanhang/frontend.php?action=logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+						<?php else: ?>
+							<li><a href="/qlbanhang/frontend.php?action=login"><i class="fa fa-sign-in"></i> Đăng nhập</a></li>
+							<li><a href="/qlbanhang/frontend.php?action=register"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
+						<?php endif; ?>
 					</ul>
 				</div>
 			</div>
@@ -128,8 +364,8 @@
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
-									<img src="/qlbanhang/public/assets/img/frontend/logo.png" alt="">
+								<a href="/qlbanhang/frontend.php" class="logo">
+									<h2 style="color: #D10024; margin: 0; font-weight: bold;">TV Store</h2>
 								</a>
 							</div>
 						</div>
@@ -140,12 +376,15 @@
 							<div class="header-search">
 								<form>
 									<select class="input-select">
-										<option value="0">All Categories</option>
-										<option value="1">Category 01</option>
-										<option value="1">Category 02</option>
+										<option value="0">Tất cả danh mục</option>
+										<?php if (isset($categories)): ?>
+											<?php foreach ($categories as $category): ?>
+												<option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
+											<?php endforeach; ?>
+										<?php endif; ?>
 									</select>
-									<input class="input" placeholder="Search here">
-									<button class="search-btn">Search</button>
+									<input class="input" placeholder="Tìm kiếm sản phẩm...">
+									<button class="search-btn">Tìm kiếm</button>
 								</form>
 							</div>
 						</div>
@@ -155,54 +394,62 @@
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
 								<!-- Wishlist -->
-								<div>
+								<!-- <div>
 									<a href="#">
 										<i class="fa fa-heart-o"></i>
-										<span>Your Wishlist</span>
-										<div class="qty">2</div>
+										<span>Yêu thích</span>
+										<div class="qty">0</div>
 									</a>
-								</div>
+								</div> -->
 								<!-- /Wishlist -->
 
 								<!-- Cart -->
-								<div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+								<div>
+									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" onclick="toggleCart(event)">
 										<i class="fa fa-shopping-cart"></i>
-										<span>Your Cart</span>
-										<div class="qty">3</div>
+										<span>Giỏ hàng</span>
+										<div class="qty" id="cart-count"><?= isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0 ?></div>
 									</a>
-									<div class="cart-dropdown">
-										<div class="cart-list">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
+									<div class="cart-dropdown" id="cart-dropdown">
+										<div class="cart-list" id="cart-items">
+											<?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
+												<?php 
+												$totalPrice = 0;
+												foreach ($_SESSION['cart'] as $item): 
+													$totalPrice += $item['price'] * $item['quantity'];
+												?>
+													<div class="product-widget">
+														<div class="product-img">
+															<?php 
+															// Kiểm tra key nào có sẵn: 'image' hoặc 'images'
+															$imageKey = isset($item['images']) ? 'images' : (isset($item['image']) ? 'image' : '');
+															$imagePath = $imageKey ? $item[$imageKey] : 'default.jpg';
+															?>
+															<img src="/qlbanhang/public/uploads/products/<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($item['name']) ?>">
+														</div>
+														<div class="product-body">
+															<h3 class="product-name"><a href="#"><?= htmlspecialchars($item['name']) ?></a></h3>
+															<h4 class="product-price"><span class="qty"><?= $item['quantity'] ?>x</span><?= number_format($item['price']) ?>đ</h4>
+														</div>
+														<button class="delete remove-from-cart" data-product-id="<?= $item['id'] ?>"><i class="fa fa-close"></i></button>
+													</div>
+												<?php endforeach; ?>
+											<?php else: ?>
+												<div class="text-center p-3">
+													<p>Giỏ hàng trống</p>
 												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
+											<?php endif; ?>
+										</div>
+										<?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
+											<div class="cart-summary">
+												<small id="cart-total-items"><?= array_sum(array_column($_SESSION['cart'], 'quantity')) ?> sản phẩm đã chọn</small>
+												<h5 id="cart-total-price">TỔNG: <?= number_format($totalPrice ?? 0) ?>đ</h5>
 											</div>
-
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="/qlbanhang/public/assets/img/frontend/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
+											<div class="cart-btns">
+												<a href="/qlbanhang/frontend.php?page=cart">Xem giỏ hàng</a>
+												<a href="/qlbanhang/frontend.php?page=checkout">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
 											</div>
-										</div>
-										<div class="cart-summary">
-											<small>3 Item(s) selected</small>
-											<h5>SUBTOTAL: $2940.00</h5>
-										</div>
-										<div class="cart-btns">
-											<a href="#">View Cart</a>
-											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-										</div>
+										<?php endif; ?>
 									</div>
 								</div>
 								<!-- /Cart -->
@@ -267,11 +514,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li><a href="#">All Categories</a></li>
-							<li><a href="#">Accessories</a></li>
-							<li><a href="#">Headphones</a></li>
-							<li class="active">Product name goes here</li>
+							<li><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
+							<li><a href="/qlbanhang/frontend.php?page=products">Sản phẩm</a></li>
+							<li class="active"><?= isset($product) ? htmlspecialchars($product['name']) : 'Chi tiết sản phẩm' ?></li>
 						</ul>
 					</div>
 				</div>
@@ -291,19 +536,11 @@
 					<div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product03.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product06.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product08.png" alt="">
+								<?php if (isset($product) && !empty($product['images'])): ?>
+									<img src="/qlbanhang/public/uploads/products/<?= htmlspecialchars($product['images']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+								<?php else: ?>
+									<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="Hình ảnh sản phẩm">
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -313,19 +550,11 @@
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product03.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product06.png" alt="">
-							</div>
-
-							<div class="product-preview">
-								<img src="/qlbanhang/public/assets/img/frontend/product08.png" alt="">
+								<?php if (isset($product) && !empty($product['images'])): ?>
+									<img src="/qlbanhang/public/uploads/products/<?= htmlspecialchars($product['images']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+								<?php else: ?>
+									<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="Hình ảnh sản phẩm">
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -334,7 +563,7 @@
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
-							<h2 class="product-name">product name goes here</h2>
+							<h2 class="product-name"><?= isset($product) ? htmlspecialchars($product['name']) : 'Tên sản phẩm' ?></h2>
 							<div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -343,54 +572,56 @@
 									<i class="fa fa-star"></i>
 									<i class="fa fa-star-o"></i>
 								</div>
-								<a class="review-link" href="#">10 Review(s) | Add your review</a>
+								<a class="review-link" href="#">10 Đánh giá | Thêm đánh giá của bạn</a>
 							</div>
 							<div>
-								<h3 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h3>
-								<span class="product-available">In Stock</span>
+								<h3 class="product-price">
+									<?php if (isset($product)): ?>
+										<?= number_format($product['price'], 0, ',', '.') ?>₫
+									<?php else: ?>
+										0₫
+									<?php endif; ?>
+								</h3>
+								<span class="product-available">Còn hàng</span>
 							</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							<p><?= isset($product) ? nl2br(htmlspecialchars($product['description'])) : 'Mô tả sản phẩm sẽ được hiển thị ở đây.' ?></p>
 
 							<div class="product-options">
-								<label>
-									Size
-									<select class="input-select">
-										<option value="0">X</option>
-									</select>
-								</label>
-								<label>
-									Color
-									<select class="input-select">
-										<option value="0">Red</option>
-									</select>
-								</label>
+								<!-- Remove size and color for TVs, they're not applicable -->
 							</div>
 
 							<div class="add-to-cart">
 								<div class="qty-label">
-									Qty
+									Số lượng
 									<div class="input-number">
-										<input type="number">
+										<input type="number" id="product-quantity" value="1" min="1">
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+								<button class="add-to-cart-btn" data-product-id="<?= isset($product) ? $product['id'] : '' ?>"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
 							</div>
 
 							<ul class="product-btns">
-								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+								<li><a href="#"><i class="fa fa-heart-o"></i> Thêm vào yêu thích</a></li>
+								<li><a href="#"><i class="fa fa-exchange"></i> So sánh</a></li>
 							</ul>
 
 							<ul class="product-links">
-								<li>Category:</li>
-								<li><a href="#">Headphones</a></li>
-								<li><a href="#">Accessories</a></li>
+								<li>Danh mục:</li>
+								<li>
+									<?php if (isset($product)): ?>
+										<a href="/qlbanhang/frontend.php?page=products&category=<?= $product['category_id'] ?>">
+											<?= htmlspecialchars($product['category_name']) ?>
+										</a>
+									<?php else: ?>
+										<a href="#">TV & Điện tử</a>
+									<?php endif; ?>
+								</li>
 							</ul>
 
 							<ul class="product-links">
-								<li>Share:</li>
+								<li>Chia sẻ:</li>
 								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
 								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
@@ -406,9 +637,9 @@
 						<div id="product-tab">
 							<!-- product tab nav -->
 							<ul class="tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-								<li><a data-toggle="tab" href="#tab2">Details</a></li>
-								<li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+								<li class="active"><a data-toggle="tab" href="#tab1">Mô tả</a></li>
+								<li><a data-toggle="tab" href="#tab2">Chi tiết</a></li>
+								<li><a data-toggle="tab" href="#tab3">Đánh giá (3)</a></li>
 							</ul>
 							<!-- /product tab nav -->
 
@@ -418,7 +649,7 @@
 								<div id="tab1" class="tab-pane fade in active">
 									<div class="row">
 										<div class="col-md-12">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+											<p><?= isset($product) ? nl2br(htmlspecialchars($product['description'])) : 'Mô tả chi tiết về sản phẩm sẽ được hiển thị ở đây. Bao gồm các thông tin về tính năng, thông số kỹ thuật và ưu điểm của sản phẩm.' ?></p>
 										</div>
 									</div>
 								</div>
@@ -428,7 +659,17 @@
 								<div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-12">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+											<?php if (isset($product)): ?>
+												<h4>Thông số kỹ thuật</h4>
+												<ul>
+													<li><strong>Tên sản phẩm:</strong> <?= htmlspecialchars($product['name']) ?></li>
+													<li><strong>Danh mục:</strong> <?= htmlspecialchars($product['category_name']) ?></li>
+													<li><strong>Giá:</strong> <?= number_format($product['price'], 0, ',', '.') ?>₫</li>
+													<li><strong>Tình trạng:</strong> Còn hàng</li>
+												</ul>
+											<?php else: ?>
+												<p>Thông tin chi tiết về sản phẩm sẽ được hiển thị ở đây.</p>
+											<?php endif; ?>
 										</div>
 									</div>
 								</div>
@@ -589,11 +830,11 @@
 										<div class="col-md-3">
 											<div id="review-form">
 												<form class="review-form">
-													<input class="input" type="text" placeholder="Your Name">
-													<input class="input" type="email" placeholder="Your Email">
-													<textarea class="input" placeholder="Your Review"></textarea>
+													<input class="input" type="text" placeholder="Tên của bạn">
+													<input class="input" type="email" placeholder="Email của bạn">
+													<textarea class="input" placeholder="Đánh giá của bạn"></textarea>
 													<div class="input-rating">
-														<span>Your Rating: </span>
+														<span>Xếp hạng: </span>
 														<div class="stars">
 															<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
 															<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
@@ -602,7 +843,7 @@
 															<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
 														</div>
 													</div>
-													<button class="primary-btn">Submit</button>
+													<button class="primary-btn">Gửi đánh giá</button>
 												</form>
 											</div>
 										</div>
@@ -631,127 +872,51 @@
 
 					<div class="col-md-12">
 						<div class="section-title text-center">
-							<h3 class="title">Related Products</h3>
+							<h3 class="title">Sản phẩm liên quan</h3>
 						</div>
 					</div>
 
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="">
-								<div class="product-label">
-									<span class="sale">-30%</span>
+					<?php if (isset($relatedProducts) && !empty($relatedProducts)): ?>
+						<?php foreach ($relatedProducts as $relatedProduct): ?>
+							<!-- product -->
+							<div class="col-md-3 col-xs-6">
+								<div class="product">
+									<div class="product-img">
+										<?php if (!empty($relatedProduct['images'])): ?>
+											<img src="/qlbanhang/public/uploads/products/<?= htmlspecialchars($relatedProduct['images']) ?>" alt="<?= htmlspecialchars($relatedProduct['name']) ?>">
+										<?php else: ?>
+											<img src="/qlbanhang/public/assets/img/frontend/product01.png" alt="<?= htmlspecialchars($relatedProduct['name']) ?>">
+										<?php endif; ?>
+									</div>
+									<div class="product-body">
+										<p class="product-category"><?= htmlspecialchars($relatedProduct['category_name']) ?></p>
+										<h3 class="product-name"><a href="/qlbanhang/frontend.php?page=product-detail&id=<?= $relatedProduct['id'] ?>"><?= htmlspecialchars($relatedProduct['name']) ?></a></h3>
+										<h4 class="product-price"><?= number_format($relatedProduct['price'], 0, ',', '.') ?>₫</h4>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star-o"></i>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">thêm vào yêu thích</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">so sánh</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">xem nhanh</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn" data-product-id="<?= $relatedProduct['id'] ?>"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
+									</div>
 								</div>
 							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
+							<!-- /product -->
+						<?php endforeach; ?>
+					<?php else: ?>
+						<div class="col-md-12 text-center">
+							<p>Không có sản phẩm liên quan nào.</p>
 						</div>
-					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="/qlbanhang/public/assets/img/frontend/product02.png" alt="">
-								<div class="product-label">
-									<span class="new">NEW</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="/qlbanhang/public/assets/img/frontend/product03.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
-
-					<!-- product -->
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="/qlbanhang/public/assets/img/frontend/product04.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
-					<!-- /product -->
+					<?php endif; ?>
 
 				</div>
 				<!-- /row -->
@@ -768,10 +933,10 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<p>Đăng ký nhận <strong>BẢN TIN</strong></p>
 							<form>
-								<input class="input" type="email" placeholder="Enter Your Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+								<input class="input" type="email" placeholder="Nhập email của bạn">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng ký</button>
 							</form>
 							<ul class="newsletter-follow">
 								<li>
@@ -900,11 +1065,198 @@
 		<script src="/qlbanhang/public/assets/js/frontend/jquery.zoom.min.js"></script>
 		<script src="/qlbanhang/public/assets/js/frontend/main.js"></script>
 		
+		<!-- Main functionality script like home.php -->
 		<script>
-		// Navigation dropdown functionality  
+		// Show notification function
+		function showNotification(message, isError = false) {
+			// Remove existing notification
+			const existingNotification = document.querySelector('.cart-notification');
+			if (existingNotification) {
+				existingNotification.remove();
+			}
+			
+			// Create new notification
+			const notification = document.createElement('div');
+			notification.className = 'cart-notification' + (isError ? ' error' : '');
+			notification.innerHTML = `
+				<i class="fa fa-shopping-cart"></i>
+				<span>${message}</span>
+			`;
+			
+			document.body.appendChild(notification);
+			
+			// Show notification
+			setTimeout(() => notification.classList.add('show'), 100);
+			
+			// Hide notification after 3 seconds
+			setTimeout(() => {
+				notification.classList.remove('show');
+				setTimeout(() => notification.remove(), 300);
+			}, 3000);
+		}
+
+		// Update cart display function
+		function updateCartDisplay(cart) {
+			console.log('📊 Updating cart display with:', cart);
+			
+			// Cập nhật số lượng trong header
+			const cartCountElement = document.getElementById('cart-count');
+			if (cartCountElement) {
+				cartCountElement.textContent = cart.totalItems || 0;
+			}
+			
+			// Reload page để cập nhật dropdown (simple approach)
+			setTimeout(() => {
+				window.location.reload();
+			}, 1500);
+		}
+
+		// Remove from cart function
+		function removeFromCart(productId) {
+			console.log('�️ Removing product:', productId);
+			
+			fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: `product_id=${productId}`
+			})
+			.then(response => response.json())
+			.then(data => {
+				console.log('📄 Remove response:', data);
+				if (data.success) {
+					showNotification('Đã xóa sản phẩm khỏi giỏ hàng');
+					updateCartDisplay(data);
+				} else {
+					showNotification('Có lỗi xảy ra khi xóa sản phẩm', true);
+				}
+			})
+			.catch(error => {
+				console.error('❌ Remove error:', error);
+				showNotification('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng', true);
+			});
+		}
+
+		// Toggle cart dropdown
+		function toggleCart(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			
+			const cartDropdown = document.getElementById('cart-dropdown');
+			if (cartDropdown) {
+				cartDropdown.classList.toggle('show');
+				
+				// Close when clicking outside
+				if (cartDropdown.classList.contains('show')) {
+					document.addEventListener('click', function closeCart(e) {
+						if (!e.target.closest('.header-ctn')) {
+							cartDropdown.classList.remove('show');
+							document.removeEventListener('click', closeCart);
+						}
+					});
+				}
+			}
+		}
+
+		// DOM ready event
 		document.addEventListener('DOMContentLoaded', function() {
-			const navDropdowns = document.querySelectorAll('.main-nav .dropdown');
-			console.log('🔍 Found navigation dropdowns in product.php:', navDropdowns.length);
+			console.log('🚀 Product.php DOM ready');
+			
+			// Event listener cho các nút xóa trong dropdown
+			document.querySelectorAll('.remove-from-cart').forEach(button => {
+				button.addEventListener('click', function() {
+					const productId = this.dataset.productId;
+					console.log('�️ Remove from cart button clicked for product:', productId);
+					removeFromCart(productId);
+				});
+			});
+
+			// Add to cart functionality
+			const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+			console.log('🔍 Found add to cart buttons:', addToCartButtons.length);
+			
+			addToCartButtons.forEach(function(button) {
+				button.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					
+					const productId = this.getAttribute('data-product-id');
+					if (!productId) {
+						showNotification('Không tìm thấy thông tin sản phẩm', true);
+						return;
+					}
+
+					// Get quantity
+					const quantityInput = document.getElementById('product-quantity');
+					let quantity = 1;
+					if (quantityInput && this.closest('.product-details')) {
+						quantity = parseInt(quantityInput.value) || 1;
+					}
+					
+					console.log('🛍️ Adding product:', productId, 'quantity:', quantity);
+					
+					// Disable button temporarily
+					this.disabled = true;
+					this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang thêm...';
+					
+					// Send AJAX request
+					const formData = new FormData();
+					formData.append('product_id', productId);
+					formData.append('quantity', quantity);
+					
+					fetch('/qlbanhang/frontend.php?action=add-to-cart', {
+						method: 'POST',
+						body: formData
+					})
+					.then(response => response.json())
+					.then(data => {
+						console.log('✅ Add to cart response:', data);
+						
+						if (data.success) {
+							showNotification('Đã thêm vào giỏ hàng thành công! 🎉');
+							updateCartDisplay(data);
+						} else {
+							showNotification('Lỗi: ' + data.message, true);
+						}
+					})
+					.catch(error => {
+						console.error('❌ Add to cart error:', error);
+						showNotification('Có lỗi xảy ra', true);
+					})
+					.finally(() => {
+						// Re-enable button
+						this.disabled = false;
+						this.innerHTML = '<i class="fa fa-shopping-cart"></i> Thêm vào giỏ';
+					});
+				});
+			});
+
+			// Quantity input controls
+			const quantityInput = document.getElementById('product-quantity');
+			const qtyUp = document.querySelector('.qty-up');
+			const qtyDown = document.querySelector('.qty-down');
+
+			if (qtyUp && quantityInput) {
+				qtyUp.addEventListener('click', function() {
+					let currentValue = parseInt(quantityInput.value) || 1;
+					quantityInput.value = currentValue + 1;
+				});
+			}
+
+			if (qtyDown && quantityInput) {
+				qtyDown.addEventListener('click', function() {
+					let currentValue = parseInt(quantityInput.value) || 1;
+					if (currentValue > 1) {
+						quantityInput.value = currentValue - 1;
+					}
+				});
+			}
+		});
+		</script>
+
+	</body>
+</html>
 			
 			navDropdowns.forEach(function(dropdown) {
 				const dropdownMenu = dropdown.querySelector('.dropdown-menu');
@@ -928,6 +1280,255 @@
 						dropdownMenu.style.transform = 'translateY(-10px)';
 					});
 				}
+			});
+
+			// Quantity input controls
+			const quantityInput = document.getElementById('product-quantity');
+			const qtyUp = document.querySelector('.qty-up');
+			const qtyDown = document.querySelector('.qty-down');
+
+			if (qtyUp && quantityInput) {
+				qtyUp.addEventListener('click', function() {
+					let currentValue = parseInt(quantityInput.value) || 1;
+					quantityInput.value = currentValue + 1;
+				});
+			}
+
+			if (qtyDown && quantityInput) {
+				qtyDown.addEventListener('click', function() {
+					let currentValue = parseInt(quantityInput.value) || 1;
+					if (currentValue > 1) {
+						quantityInput.value = currentValue - 1;
+					}
+				});
+			}
+
+			// Show notification function
+			function showNotification(message, isError = false) {
+				// Remove existing notification
+				const existingNotification = document.querySelector('.cart-notification');
+				if (existingNotification) {
+					existingNotification.remove();
+				}
+				
+				// Create new notification
+				const notification = document.createElement('div');
+				notification.className = 'cart-notification' + (isError ? ' error' : '');
+				notification.innerHTML = `
+					<i class="fa fa-shopping-cart"></i>
+					<span>${message}</span>
+				`;
+				
+				document.body.appendChild(notification);
+				
+				// Show notification
+				setTimeout(() => notification.classList.add('show'), 100);
+				
+				// Hide notification after 3 seconds
+				setTimeout(() => {
+					notification.classList.remove('show');
+					setTimeout(() => notification.remove(), 300);
+				}, 3000);
+			}
+
+			function updateCartDisplay(cart) {
+				console.log('📊 Updating cart display with:', cart);
+				
+				// Cập nhật số lượng trong header
+				const cartCountElement = document.getElementById('cart-count');
+				if (cartCountElement) {
+					cartCountElement.textContent = cart.totalItems || 0;
+				}
+				
+				// Reload page để cập nhật dropdown (simple approach)
+				setTimeout(() => {
+					window.location.reload();
+				}, 1500);
+			}
+
+			// Add to cart functionality
+			const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+			console.log('🔍 Found add to cart buttons:', addToCartButtons.length);
+			
+			addToCartButtons.forEach(function(button) {
+				button.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					
+					const productId = this.getAttribute('data-product-id');
+					if (!productId) {
+						showNotification('Không tìm thấy thông tin sản phẩm', true);
+						return;
+					}
+
+					// Get quantity (only for main product, related products use quantity 1)
+					let quantity = 1;
+					if (quantityInput && this.closest('.product-details')) {
+						quantity = parseInt(quantityInput.value) || 1;
+					}
+					
+					console.log('🛍️ Adding product:', productId, 'quantity:', quantity);
+					
+					// Disable button temporarily
+					this.disabled = true;
+					this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang thêm...';
+					
+					// Send AJAX request
+					const formData = new FormData();
+					formData.append('product_id', productId);
+					formData.append('quantity', quantity);
+					
+					fetch('/qlbanhang/frontend.php?action=add-to-cart', {
+						method: 'POST',
+						body: formData
+					})
+					.then(response => {
+						console.log('📥 Response status:', response.status);
+						return response.json();
+					})
+					.then(data => {
+						console.log('✅ Response data:', data);
+						
+						if (data.success) {
+							showNotification('Đã thêm vào giỏ hàng thành công! 🎉');
+							updateCartDisplay(data);
+						} else {
+							showNotification('Lỗi: ' + data.message, true);
+						}
+					})
+					.catch(error => {
+						console.error('❌ Error:', error);
+						showNotification('Có lỗi xảy ra', true);
+					})
+					.finally(() => {
+						// Re-enable button
+						this.disabled = false;
+						this.innerHTML = '<i class="fa fa-shopping-cart"></i> Thêm vào giỏ';
+					});
+				});
+			});
+
+			// Show notification function
+			function showNotification(message, isError = false) {
+				// Remove existing notification
+				const existingNotification = document.querySelector('.cart-notification');
+				if (existingNotification) {
+					existingNotification.remove();
+				}
+				
+				// Create new notification
+				const notification = document.createElement('div');
+				notification.className = 'cart-notification' + (isError ? ' error' : '');
+				notification.innerHTML = `
+					<i class="fa fa-shopping-cart"></i>
+					<span>${message}</span>
+				`;
+				
+				document.body.appendChild(notification);
+				
+				// Show notification
+				setTimeout(() => notification.classList.add('show'), 100);
+				
+				// Hide notification after 3 seconds
+				setTimeout(() => {
+					notification.classList.remove('show');
+					setTimeout(() => notification.remove(), 300);
+				}, 3000);
+			}
+
+			// Update cart display function
+			function updateCartDisplay(cart) {
+				console.log('📊 Updating cart display with:', cart);
+				
+				// Cập nhật số lượng trong header
+				const cartCountElement = document.getElementById('cart-count');
+				if (cartCountElement) {
+					cartCountElement.textContent = cart.totalItems || 0;
+				}
+				
+				// Reload page để cập nhật dropdown (simple approach)
+				setTimeout(() => {
+					window.location.reload();
+				}, 1500);
+			}
+
+			// Toggle cart dropdown
+			function toggleCart(event) {
+				event.preventDefault();
+				event.stopPropagation();
+				
+				const cartDropdown = document.getElementById('cart-dropdown');
+				if (cartDropdown) {
+					cartDropdown.classList.toggle('show');
+					
+					// Close when clicking outside
+					if (cartDropdown.classList.contains('show')) {
+						document.addEventListener('click', function closeCart(e) {
+							if (!e.target.closest('.header-ctn')) {
+								cartDropdown.classList.remove('show');
+								document.removeEventListener('click', closeCart);
+							}
+						});
+					}
+				}
+			}
+
+			// Remove item from cart function
+			function removeFromCart(productId) {
+				console.log('🗑️ Removing product:', productId);
+				
+				fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					body: `product_id=${productId}`
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log('📄 Remove response:', data);
+					if (data.success) {
+						showNotification('Đã xóa sản phẩm khỏi giỏ hàng');
+						updateCartDisplay(data);
+					} else {
+						showNotification('Có lỗi xảy ra khi xóa sản phẩm', true);
+					}
+				})
+				.catch(error => {
+					console.error('❌ Remove error:', error);
+					showNotification('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng', true);
+				});
+			}
+		});
+
+		// Event handlers for cart functionality
+		document.addEventListener('click', function(e) {
+			if (e.target.closest('.remove-from-cart')) {
+				e.preventDefault();
+				e.stopPropagation();
+				
+				const button = e.target.closest('.remove-from-cart');
+				const productId = button.dataset.productId;
+				console.log('�️ Remove from cart clicked for product:', productId);
+				
+				if (productId) {
+					removeFromCart(productId);
+				} else {
+					console.error('❌ No product ID found');
+				}
+			}
+		});
+
+		// Simple event listeners like home.php
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log('DOM ready - attaching cart events');
+			
+			document.querySelectorAll('.remove-from-cart').forEach(button => {
+				button.addEventListener('click', function() {
+					const productId = this.dataset.productId;
+					console.log('Remove from cart button clicked for product:', productId);
+					removeFromCart(productId);
+				});
 			});
 		});
 		</script>
