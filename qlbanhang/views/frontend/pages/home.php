@@ -72,6 +72,30 @@ if (!isset($featuredProducts)) {
 		.cart-notification.error {
 			background: #dc3545;
 		}
+
+		/* Single checkout button styling */
+		.btn-checkout-only {
+			display: block !important;
+			width: 100% !important;
+			text-align: center !important;
+			padding: 10px !important;
+			background: #D10024 !important;
+			color: #fff !important;
+			text-decoration: none !important;
+			border-radius: 4px !important;
+			transition: all 0.3s ease !important;
+			font-weight: bold !important;
+		}
+
+		.btn-checkout-only:hover {
+			background: #b8001f !important;
+			color: #fff !important;
+		}
+
+		/* Cart button container styling */
+		.cart-btns {
+			padding: 15px !important;
+		}
 		
 		/* Cart dropdown visibility fix */
 		.header-ctn > div {
@@ -286,8 +310,7 @@ if (!isset($featuredProducts)) {
 												<h5 id="cart-total-price">TỔNG: <?php echo number_format($totalPrice ?? 0); ?>đ</h5>
 											</div>
 											<div class="cart-btns">
-												<a href="/qlbanhang/frontend.php?page=cart">Xem giỏ hàng</a>
-												<a href="/qlbanhang/frontend.php?page=checkout">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
+												<a href="/qlbanhang/frontend.php?page=checkout" class="btn-checkout-only">Đặt Hàng <i class="fa fa-arrow-circle-right"></i></a>
 											</div>
 										<?php endif; ?>
 									</div>
@@ -324,22 +347,21 @@ if (!isset($featuredProducts)) {
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
 						<li class="dropdown" style="position: relative;">
-							<a href="/qlbanhang/frontend.php?page=products" class="dropdown-toggle">
+							<a href="/qlbanhang/frontend.php?page=store" class="dropdown-toggle">
 								Tất cả sản phẩm <i class="fa fa-angle-down"></i>
 							</a>
 							<ul class="dropdown-menu" style="position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e4e7ed; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; display: block; list-style: none; padding: 0; margin: 0;">
 								<?php if (isset($categories) && !empty($categories)): ?>
 									<?php foreach ($categories as $category): ?>
-										<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=<?= $category['id'] ?>" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;"><?= htmlspecialchars($category['name']) ?></a></li>
+										<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=<?= urlencode($category['name']) ?>" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;"><?= htmlspecialchars($category['name']) ?></a></li>
 									<?php endforeach; ?>
 								<?php else: ?>
-									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi OLED</a></li>
-									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi 4K</a></li>
-									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
-									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
-									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
-									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
-									<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
+									
+									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Samsung" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
+									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi LG" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
+									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Sony" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
+									<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Xiaomi" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
+									<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Toshiba" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
 								<?php endif; ?>
 							</ul>
 						</li>
@@ -362,11 +384,11 @@ if (!isset($featuredProducts)) {
 					<div class="col-md-4 col-xs-6">
 						<div class="shop">
 							<div class="shop-img">
-								<img src="/qlbanhang/public/assets/img/frontend/shop01.png" alt="">
+								<img src="/qlbanhang/public/uploads/products/banner 1.jpg" alt="Tivi Samsung">
 							</div>
 							<div class="shop-body">
-								<h3>Tivi OLED<br></h3>
-								<a href="#" class="cta-btn">Mua ngay <i class="fa fa-arrow-circle-right"></i></a>
+								<h3>Tivi SAMSUNG<br></h3>
+								<a href="/qlbanhang/frontend.php?page=store" class="cta-btn">MUA NGAY <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 					</div>
@@ -376,11 +398,11 @@ if (!isset($featuredProducts)) {
 					<div class="col-md-4 col-xs-6">
 						<div class="shop">
 							<div class="shop-img">
-								<img src="/qlbanhang/public/assets/img/frontend/shop03.png" alt="">
+								<img src="/qlbanhang/public/uploads/products/banner 1.jpg" alt="Tivi Sony">
 							</div>
 							<div class="shop-body">
-								<h3>Tivi 4k<br></h3>
-								<a href="#" class="cta-btn">Mua ngay <i class="fa fa-arrow-circle-right"></i></a>
+								<h3>Tivi SONY<br></h3>
+								<a href="/qlbanhang/frontend.php?page=store" class="cta-btn">MUA NGAY <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 					</div>
@@ -390,11 +412,11 @@ if (!isset($featuredProducts)) {
 					<div class="col-md-4 col-xs-6">
 						<div class="shop">
 							<div class="shop-img">
-								<img src="/qlbanhang/public/assets/img/frontend/shop02.png" alt="">
+								<img src="/qlbanhang/public/uploads/products/banner 1.jpg" alt="Tivi LG">
 							</div>
 							<div class="shop-body">
-								<h3>Tivi QLED<br></h3>
-								<a href="#" class="cta-btn">Mua ngay <i class="fa fa-arrow-circle-right"></i></a>
+								<h3>Tivi LG<br></h3>
+								<a href="/qlbanhang/frontend.php?page=store" class="cta-btn">MUA NGAY <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 					</div>
@@ -518,7 +540,7 @@ if (!isset($featuredProducts)) {
 							</ul>
 							<h2 class="text-uppercase">Khuyến mãi hot trong tuần</h2>
 							<p> Bộ sưu tập mới giảm giá lên đến 50%</p>
-							<a class="primary-btn cta-btn" href="#">Mua ngay</a>
+							<a class="primary-btn cta-btn" href="/qlbanhang/frontend.php?page=store">Mua ngay</a>
 						</div>
 					</div>
 				</div>

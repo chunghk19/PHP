@@ -130,6 +130,36 @@ class FrontendController {
         include "views/frontend/pages/register.php";
     }
 
+    // Trang cửa hàng với filtering
+    public function store() {
+        // Lấy filter parameters từ URL
+        $selectedCategories = isset($_GET['categories']) ? explode(',', $_GET['categories']) : [];
+        
+        // Lấy tất cả sản phẩm để tính toán filter counts
+        $allProducts = $this->productModel->getAllWithCategories();
+        
+        // Filter sản phẩm theo category
+        $products = $allProducts;
+        
+        if (!empty($selectedCategories)) {
+            $products = array_filter($products, function($product) use ($selectedCategories) {
+                return in_array($product['category_name'], $selectedCategories);
+            });
+            // Reset array keys after filtering
+            $products = array_values($products);
+        }
+        
+        // Lấy tất cả categories cho navigation
+        $categories = $this->categoryModel->getAll();
+        
+        $title = 'Tất cả sản phẩm - TV Store';
+        
+        // Make sure variables are available to the view
+        $authController = new AuthController();
+        
+        include "views/frontend/pages/store.php";
+    }
+
     // Tài khoản của tôi
     public function account() {
         // Kiểm tra đăng nhập

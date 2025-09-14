@@ -164,8 +164,7 @@
                                         <h5>TỔNG: <?php echo number_format($totalPrice ?? 0); ?>đ</h5>
                                     </div>
                                     <div class="cart-btns">
-                                        <a href="/qlbanhang/frontend.php?page=cart">Xem giỏ hàng</a>
-                                        <a href="/qlbanhang/frontend.php?page=checkout">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="/qlbanhang/frontend.php?page=checkout" class="btn-checkout-only">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 <?php endif; ?>
                             </div>

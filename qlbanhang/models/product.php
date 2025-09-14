@@ -124,4 +124,47 @@ class Product {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    // Lấy sản phẩm theo thương hiệu
+    public function getProductsByBrand($brand) {
+        $sql = "SELECT p.*, c.name as category_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.category_id = c.id 
+                WHERE p.brand = ? 
+                ORDER BY p.id DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$brand]);
+        return $stmt->fetchAll();
+    }
+
+    // Lấy sản phẩm theo category (alias cho getByCategory nhưng trả về tất cả)
+    public function getProductsByCategory($categoryId) {
+        $sql = "SELECT p.*, c.name as category_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.category_id = c.id 
+                WHERE p.category_id = ? 
+                ORDER BY p.id DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$categoryId]);
+        return $stmt->fetchAll();
+    }
+
+    // Lấy tất cả thương hiệu unique
+    public function getAllBrands() {
+        $sql = "SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND brand != '' ORDER BY brand";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    // Lấy tất cả sản phẩm với category names
+    public function getAllWithCategories() {
+        $sql = "SELECT p.*, c.name as category_name 
+                FROM products p 
+                LEFT JOIN categories c ON p.category_id = c.id 
+                ORDER BY p.id DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

@@ -8,7 +8,11 @@ class Order {
 
     // Lấy tất cả đơn hàng kèm thông tin khách hàng
     public function getAll() {
-        $sql = "SELECT o.*, u.full_name, u.phone, u.email 
+        $sql = "SELECT o.*, 
+                COALESCE(o.customer_name, u.full_name) as customer_name,
+                COALESCE(o.customer_phone, u.phone) as customer_phone, 
+                COALESCE(o.customer_email, u.email) as customer_email,
+                o.delivery_address, o.notes
                 FROM orders o 
                 LEFT JOIN users u ON o.user_id = u.id 
                 ORDER BY o.order_date DESC";
@@ -18,7 +22,11 @@ class Order {
 
     // Lấy đơn hàng theo ID kèm thông tin chi tiết
     public function getById($id) {
-        $sql = "SELECT o.*, u.full_name, u.phone, u.email 
+        $sql = "SELECT o.*, 
+                COALESCE(o.customer_name, u.full_name) as customer_name,
+                COALESCE(o.customer_phone, u.phone) as customer_phone, 
+                COALESCE(o.customer_email, u.email) as customer_email,
+                o.delivery_address, o.notes
                 FROM orders o 
                 LEFT JOIN users u ON o.user_id = u.id 
                 WHERE o.id = ?";
@@ -44,6 +52,15 @@ class Order {
                 VALUES (?, NOW(), ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$user_id, $status, $total_price]);
+        return $this->conn->lastInsertId();
+    }
+
+    // Tạo đơn hàng với thông tin khách hàng đầy đủ
+    public function createWithCustomerInfo($user_id, $customer_name, $customer_phone, $customer_email, $delivery_address, $total_price, $notes = '', $status = 'pending') {
+        $sql = "INSERT INTO orders (user_id, customer_name, customer_phone, customer_email, delivery_address, notes, order_date, status, total_price) 
+                VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$user_id, $customer_name, $customer_phone, $customer_email, $delivery_address, $notes, $status, $total_price]);
         return $this->conn->lastInsertId();
     }
 

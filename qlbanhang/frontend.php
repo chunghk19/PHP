@@ -7,6 +7,7 @@ require_once "config/database.php";
 require_once "controllers/frontendController.php";
 require_once "controllers/authController.php";
 require_once "controllers/cartController.php";
+require_once "controllers/orderController.php";
 
 // Lấy tham số page và action từ URL
 $page = $_GET['page'] ?? 'home';
@@ -16,6 +17,7 @@ $action = $_GET['action'] ?? '';
 $controller = new FrontendController();
 $authController = new AuthController();
 $cartController = new CartController();
+$orderController = new OrderController();
 
 // Ưu tiên xử lý authentication và cart actions trước
 if (!empty($action)) {
@@ -60,6 +62,10 @@ if (!empty($action)) {
         case 'clear-cart':
             $cartController->clearCart();
             exit;
+            
+        case 'place-order':
+            $orderController->placeOrder();
+            exit;
     }
 }
 
@@ -69,8 +75,16 @@ switch ($page) {
         $controller->home();
         break;
         
+    case 'store':
+        $controller->store();
+        break;
+        
     case 'products':
         $controller->products();
+        break;
+        
+    case 'product':
+        $controller->productDetail();
         break;
         
     case 'product-detail':

@@ -106,6 +106,30 @@ if (!isset($categories)) {
 			background: #dc3545;
 		}
 
+		/* Single checkout button styling */
+		.btn-checkout-only {
+			display: block !important;
+			width: 100% !important;
+			text-align: center !important;
+			padding: 10px !important;
+			background: #D10024 !important;
+			color: #fff !important;
+			text-decoration: none !important;
+			border-radius: 4px !important;
+			transition: all 0.3s ease !important;
+			font-weight: bold !important;
+		}
+
+		.btn-checkout-only:hover {
+			background: #b8001f !important;
+			color: #fff !important;
+		}
+
+		/* Cart button container styling */
+		.cart-btns {
+			padding: 15px !important;
+		}
+
 		/* Cart dropdown visibility fix */
 		.header-ctn > div {
 			position: relative;
@@ -446,8 +470,7 @@ if (!isset($categories)) {
 												<h5 id="cart-total-price">TỔNG: <?= number_format($totalPrice ?? 0) ?>đ</h5>
 											</div>
 											<div class="cart-btns">
-												<a href="/qlbanhang/frontend.php?page=cart">Xem giỏ hàng</a>
-												<a href="/qlbanhang/frontend.php?page=checkout">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
+												<a href="/qlbanhang/frontend.php?page=checkout" class="btn-checkout-only">Đặt Hàng  <i class="fa fa-arrow-circle-right"></i></a>
 											</div>
 										<?php endif; ?>
 									</div>
@@ -482,19 +505,18 @@ if (!isset($categories)) {
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
+						<li><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
 						<li class="dropdown" style="position: relative;">
-							<a href="/qlbanhang/frontend.php?page=products" class="dropdown-toggle">
+							<a href="/qlbanhang/frontend.php?page=store" class="dropdown-toggle">
 								Tất cả sản phẩm <i class="fa fa-angle-down"></i>
 							</a>
 							<ul class="dropdown-menu" style="position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e4e7ed; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; display: block; list-style: none; padding: 0; margin: 0;">
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=1" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi OLED</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=2" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi 4K</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=3" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=4" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=5" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=6" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
-								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=products&category=7" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
+							
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Samsung" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi LG" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Sony" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Xiaomi" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
+								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Toshiba" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
 							</ul>
 						</li>
 					</ul>

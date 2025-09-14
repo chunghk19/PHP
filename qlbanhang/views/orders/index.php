@@ -50,25 +50,10 @@
               <i class="nc-icon nc-cart-simple"></i>
               <p>
                 Quản lý Đơn hàng
-                <b class="caret"></b>
+                
               </p>
             </a>
-            <div id="ordersSubmenu" style="display: block;">
-              <ul class="nav">
-                <li class="active">
-                  <a href="/qlbanhang/admin.php?page=orders&action=index">
-                    <span class="sidebar-mini-icon">📋</span>
-                    <span class="sidebar-normal">Danh sách</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="/qlbanhang/admin.php?page=orders&action=stats">
-                    <span class="sidebar-mini-icon">📊</span>
-                    <span class="sidebar-normal">Thống kê</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            
           </li>
           <li>
             <a href="/qlbanhang/admin.php?page=users&action=index">
@@ -132,8 +117,8 @@
                           <tr>
                             <td>#<?php echo $order['id']; ?></td>
                             <td>
-                              <strong><?php echo htmlspecialchars($order['full_name']); ?></strong><br>
-                              <small><?php echo htmlspecialchars($order['phone']); ?></small>
+                              <strong><?php echo htmlspecialchars($order['customer_name']); ?></strong><br>
+                              <small><?php echo htmlspecialchars($order['customer_phone']); ?></small>
                             </td>
                             <td><?php echo date('d/m/Y H:i', strtotime($order['order_date'])); ?></td>
                             <td><?php echo number_format($order['total_price'], 0, ',', '.') . ' đ'; ?></td>

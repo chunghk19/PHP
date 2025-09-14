@@ -93,9 +93,15 @@
                     <p><strong>Tổng tiền:</strong> <?php echo number_format($order['total_price'], 0, ',', '.') . ' đ'; ?></p>
                   </div>
                   <div class="col-md-6">
-                    <p><strong>Khách hàng:</strong> <?php echo htmlspecialchars($order['full_name']); ?></p>
-                    <p><strong>Điện thoại:</strong> <?php echo htmlspecialchars($order['phone']); ?></p>
-                    <p><strong>Email:</strong> <?php echo htmlspecialchars($order['email']); ?></p>
+                    <p><strong>Khách hàng:</strong> <?php echo htmlspecialchars($order['customer_name']); ?></p>
+                    <p><strong>Điện thoại:</strong> <?php echo htmlspecialchars($order['customer_phone']); ?></p>
+                    <p><strong>Email:</strong> <?php echo htmlspecialchars($order['customer_email']); ?></p>
+                    <?php if (!empty($order['delivery_address'])): ?>
+                    <p><strong>Địa chỉ giao hàng:</strong> <?php echo htmlspecialchars($order['delivery_address']); ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($order['notes'])): ?>
+                    <p><strong>Ghi chú:</strong> <?php echo htmlspecialchars($order['notes']); ?></p>
+                    <?php endif; ?>
                   </div>
                 </div>
               </div>
