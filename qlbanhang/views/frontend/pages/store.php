@@ -1,48 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 		<title><?php echo $title ?? 'Tất cả sản phẩm - TV Store'; ?></title>
 
- 		<!-- Google font -->
+ 		<!-- Font Google -->
  		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
- 		<!-- Bootstrap -->
+ 		<!-- Bootstrap CSS -->
  		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/bootstrap.min.css"/>
 
- 		<!-- Slick -->
- 		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/slick.css"/>
- 		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/slick-theme.css"/>
-
- 		<!-- nouislider -->
- 		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/nouislider.min.css"/>
-
- 		<!-- Font Awesome Icon -->
- 		<link rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/font-awesome.min.css">
- 		<!-- Font Awesome CDN Backup -->
+ 		<!-- Font Awesome -->
  		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
- 		<!-- Custom stlylesheet -->
+ 		<!-- CSS tùy chỉnh -->
  		<link type="text/css" rel="stylesheet" href="/qlbanhang/public/assets/css/frontend/style.css"/>
-
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
 		
 		<style>
-		/* Navigation dropdown styles */
+		/* CSS cho dropdown menu */
 		.main-nav > li {
-			position: relative !important;
-		}
-		
-		.main-nav li.dropdown {
 			position: relative !important;
 		}
 		
@@ -53,7 +32,6 @@
 			background: #fff !important;
 			border: 1px solid #e4e7ed !important;
 			box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-			border-radius: 0 !important;
 			min-width: 200px !important;
 			opacity: 0 !important;
 			visibility: hidden !important;
@@ -76,7 +54,6 @@
 			display: block !important;
 			border-bottom: 1px solid #f0f0f0 !important;
 			width: 100% !important;
-			float: none !important;
 		}
 		
 		.dropdown-menu li:last-child {
@@ -89,7 +66,6 @@
 			color: #333 !important;
 			text-decoration: none !important;
 			transition: all 0.3s ease !important;
-			text-transform: none !important;
 			font-size: 14px !important;
 		}
 		
@@ -129,9 +105,9 @@
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> 0982 905 207</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> tvstore@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> I - Tech</a></li>
 					</ul>
 					<ul class="header-links pull-right">
 						<!-- <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li> -->
@@ -170,8 +146,9 @@
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
-									<img src="/qlbanhang/public/assets/img/frontend/logo.png" alt="">
+								<a href="/qlbanhang/frontend.php" class="logo">
+									<h2 style="color: #D10024; margin: 0; font-weight: bold;">TV Store</h2>
+									<p style="color: #666; margin: 0; font-size: 12px; text-align: center;">Nhóm 5</p>
 								</a>
 							</div>
 						</div>
@@ -214,9 +191,6 @@
 												$totalPrice = 0;
 												foreach ($_SESSION['cart'] as $item): 
 													$totalPrice += $item['price'] * $item['quantity'];
-													
-													// Debug để xem structure của item
-													error_log('Cart Item: ' . print_r($item, true));
 												?>
 													<div class="product-widget">
 														<div class="product-img">
@@ -376,22 +350,14 @@
 							<div class="store-sort">
 								<label>
 									Sắp xếp theo:
-									<select class="input-select">
-										<option value="0">Phổ biến</option>
-										<option value="1">Giá thấp đến cao</option>
-										<option value="2">Giá cao đến thấp</option>
-										<option value="3">Mới nhất</option>
+									<select class="input-select" id="sort-select">
+										<option value="">Mặc định</option>
+										<option value="price_asc">Giá thấp đến cao</option>
+										<option value="price_desc">Giá cao đến thấp</option>
 									</select>
 								</label>
 
-								<label>
-									Hiển thị:
-									<select class="input-select">
-										<option value="0">12</option>
-										<option value="1">24</option>
-										<option value="2">48</option>
-									</select>
-								</label>
+								
 							</div>
 							<ul class="store-grid">
 								<li class="active"><i class="fa fa-th"></i></li>
@@ -444,7 +410,7 @@
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star"></i>
 											</div>
 											<div class="product-btns">
 												<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">thêm vào yêu thích</span></button>
@@ -506,10 +472,10 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<p>Đăng ký nhận <strong>BẢN TIN</strong></p>
 							<form>
-								<input class="input" type="email" placeholder="Enter Your Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+								<input class="input" type="email" placeholder="Nhập email của bạn">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng ký</button>
 							</form>
 							<ul class="newsletter-follow">
 								<li>
@@ -544,25 +510,27 @@
 					<div class="row">
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">About Us</h3>
+								<h3 class="footer-title">Về Chúng Tôi</h3>
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
 								<ul class="footer-links">
-									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+									<li><a href="#"><i class="fa fa-map-marker"></i>I - Tech</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i>0982 905 207</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>tvstore@gmail.com</a></li>
 								</ul>
 							</div>
 						</div>
 
-						<div class="col-md-3 col-xs-6">
+												<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Categories</h3>
+								<h3 class="footer-title">Danh Mục</h3>
 								<ul class="footer-links">
-									<li><a href="#">Hot deals</a></li>
-									<li><a href="#">Laptops</a></li>
-									<li><a href="#">Smartphones</a></li>
-									<li><a href="#">Cameras</a></li>
-									<li><a href="#">Accessories</a></li>
+									
+									<li><a href="#">Tivi Samsung</a></li>
+									<li><a href="#">Tivi LG</a></li>
+									<li><a href="#">Tivi Sony</a></li>
+									<li><a href="#">Tivi Xiaomi</a></li>
+									<li><a href="#">Tivi Toshiba</a></li>
+									
 								</ul>
 							</div>
 						</div>
@@ -571,26 +539,26 @@
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Information</h3>
+								<h3 class="footer-title">Thông Tin</h3>
 								<ul class="footer-links">
-									<li><a href="#">About Us</a></li>
-									<li><a href="#">Contact Us</a></li>
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">Orders and Returns</a></li>
-									<li><a href="#">Terms & Conditions</a></li>
+									<li><a href="#">Thông tin</a></li>
+									<li><a href="#">Liên hệ </a></li>
+									<li><a href="#">Chính sách bảo mật</a></li>
+									<li><a href="#">Đơn hàng và trả hàng</a></li>
+									<li><a href="#">Điều khoản & Điều kiện</a></li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Service</h3>
+								<h3 class="footer-title">Dịch Vụ</h3>
 								<ul class="footer-links">
-									<li><a href="#">My Account</a></li>
-									<li><a href="#">View Cart</a></li>
-									<li><a href="#">Wishlist</a></li>
-									<li><a href="#">Track My Order</a></li>
-									<li><a href="#">Help</a></li>
+									<li><a href="#">Tài khoản </a></li>
+									<li><a href="#">Giỏ hàng</a></li>
+									<li><a href="#">Danh sách yêu thích</a></li>
+									<li><a href="#">Theo dõi đơn hàng</a></li>
+									<li><a href="#">Trợ giúp</a></li>
 								</ul>
 							</div>
 						</div>
@@ -615,11 +583,7 @@
 								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
 								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
 							</ul>
-							<span class="copyright">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
+							
 						</div>
 					</div>
 						<!-- /row -->
@@ -631,15 +595,13 @@
 		<!-- /FOOTER -->
 
 		<!-- jQuery Plugins -->
+		<!-- jQuery -->
 		<script src="/qlbanhang/public/assets/js/frontend/jquery.min.js"></script>
+		<!-- Bootstrap JS -->
 		<script src="/qlbanhang/public/assets/js/frontend/bootstrap.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/slick.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/nouislider.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/jquery.zoom.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/main.js"></script>
 		
 		<style>
-		/* Notification styles - copied from home.php */
+		/* CSS thông báo giỏ hàng */
 		.cart-notification {
 			position: fixed;
 			top: 20px;
@@ -689,30 +651,26 @@
 		</style>
 
 		<script>
-		// Navigation dropdown functionality  
+		// Chức năng dropdown menu và giỏ hàng
 		document.addEventListener('DOMContentLoaded', function() {
-			console.log('🟢 Store.php DOM ready - initializing all features');
 			
+			// Xử lý dropdown navigation
 			const navDropdowns = document.querySelectorAll('.main-nav .dropdown');
-			console.log('🔍 Found navigation dropdowns in store.php:', navDropdowns.length);
 			
 			navDropdowns.forEach(function(dropdown) {
 				const dropdownMenu = dropdown.querySelector('.dropdown-menu');
-				console.log('📋 Dropdown menu found:', dropdownMenu);
 				
 				if (dropdownMenu) {
-					// Mouse enter
+					// Khi hover vào dropdown
 					dropdown.addEventListener('mouseenter', function() {
-						console.log('🖱️ Mouse enter dropdown in store.php');
 						dropdownMenu.style.opacity = '1';
 						dropdownMenu.style.visibility = 'visible';
 						dropdownMenu.style.transform = 'translateY(0)';
 						dropdownMenu.style.display = 'block';
 					});
 					
-					// Mouse leave
+					// Khi rời khỏi dropdown
 					dropdown.addEventListener('mouseleave', function() {
-						console.log('🖱️ Mouse leave dropdown in store.php');
 						dropdownMenu.style.opacity = '0';
 						dropdownMenu.style.visibility = 'hidden';
 						dropdownMenu.style.transform = 'translateY(-10px)';
@@ -720,78 +678,84 @@
 				}
 			});
 			
-			// Category filtering functionality
+			// Chức năng lọc sản phẩm theo danh mục và sắp xếp theo giá
 			const categoryCheckboxes = document.querySelectorAll('input[name="category[]"]');
+			const sortSelect = document.getElementById('sort-select');
+			
+			// Thiết lập giá trị sắp xếp hiện tại từ URL
+			const urlParams = new URLSearchParams(window.location.search);
+			const currentSort = urlParams.get('sort');
+			if (currentSort && sortSelect) {
+				sortSelect.value = currentSort;
+			}
 			
 			function filterProducts() {
 				const selectedCategories = Array.from(categoryCheckboxes)
 					.filter(cb => cb.checked)
 					.map(cb => cb.value);
 				
-				// Build URL parameters
+				// Xây dựng tham số URL
 				const params = new URLSearchParams();
-				params.append('page', 'store'); // Always include page=store
+				params.append('page', 'store');
 				if (selectedCategories.length > 0) {
 					params.append('categories', selectedCategories.join(','));
 				}
 				
-				// Reload page with filters
+				// Thêm tham số sắp xếp nếu được chọn
+				if (sortSelect && sortSelect.value) {
+					params.append('sort', sortSelect.value);
+				}
+				
+				// Tải lại trang với bộ lọc
 				const newUrl = '/qlbanhang/frontend.php?' + params.toString();
 				window.location.href = newUrl;
 			}
 			
-			// Add event listeners to checkboxes
+			// Thêm event listener cho checkbox
 			categoryCheckboxes.forEach(checkbox => {
 				checkbox.addEventListener('change', filterProducts);
 			});
 			
-			// Event listener cho các nút xóa đã có sẵn trong header
+			// Thêm event listener cho dropdown sắp xếp
+			if (sortSelect) {
+				sortSelect.addEventListener('change', filterProducts);
+			}
+			
+			// Xử lý nút xóa sản phẩm khỏi giỏ hàng
 			document.querySelectorAll('.remove-from-cart').forEach(button => {
 				button.addEventListener('click', function() {
 					const productId = this.dataset.productId;
-					console.log('�️ Remove from cart button clicked for product:', productId);
 					removeFromCart(productId);
 				});
 			});
 			
-			// Find all add to cart buttons
+			// Xử lý nút thêm vào giỏ hàng
 			const buttons = document.querySelectorAll('.add-to-cart-btn');
-			console.log('🔍 Found buttons:', buttons.length);
 			
-			buttons.forEach(function(button, index) {
-				console.log('🎯 Button ' + index + ':', button);
-				console.log('� Product ID:', button.getAttribute('data-product-id'));
-				
+			buttons.forEach(function(button) {
 				button.addEventListener('click', function(e) {
-					console.log('🔥 BUTTON CLICKED!');
 					e.preventDefault();
 					e.stopPropagation();
 					
 					const productId = this.getAttribute('data-product-id');
-					console.log('🛍️ Adding product:', productId);
 					
-					// Disable button temporarily
+					// Vô hiệu hóa nút tạm thời
 					this.disabled = true;
 					this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang thêm...';
 					
-					// Simple AJAX
+					// Gửi request AJAX
 					const formData = new FormData();
 					formData.append('product_id', productId);
 					formData.append('quantity', 1);
-					
-					console.log('📡 Sending request...');
 					
 					fetch('/qlbanhang/frontend.php?action=add-to-cart', {
 						method: 'POST',
 						body: formData
 					})
 					.then(response => {
-						console.log('📥 Response:', response.status);
 						return response.json();
 					})
 					.then(data => {
-						console.log('✅ JSON:', data);
-						
 						if (data.success) {
 							showNotification('Đã thêm vào giỏ hàng thành công! 🎉');
 							updateCartDisplay(data);
@@ -800,11 +764,10 @@
 						}
 					})
 					.catch(error => {
-						console.error('❌ Error:', error);
 						showNotification('Có lỗi xảy ra', true);
 					})
 					.finally(() => {
-						// Re-enable button
+						// Kích hoạt lại nút
 						this.disabled = false;
 						this.innerHTML = '<i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng';
 					});
@@ -812,15 +775,15 @@
 			});
 		});
 		
-		// Show notification function
+		// Hiển thị thông báo
 		function showNotification(message, isError = false) {
-			// Remove existing notification
+			// Xóa thông báo cũ
 			const existingNotification = document.querySelector('.cart-notification');
 			if (existingNotification) {
 				existingNotification.remove();
 			}
 			
-			// Create new notification
+			// Tạo thông báo mới
 			const notification = document.createElement('div');
 			notification.className = 'cart-notification' + (isError ? ' error' : '');
 			notification.innerHTML = `
@@ -830,17 +793,17 @@
 			
 			document.body.appendChild(notification);
 			
-			// Show notification
+			// Hiển thị thông báo
 			setTimeout(() => notification.classList.add('show'), 100);
 			
-			// Hide notification after 3 seconds
+			// Ẩn thông báo sau 3 giây
 			setTimeout(() => {
 				notification.classList.remove('show');
 				setTimeout(() => notification.remove(), 300);
 			}, 3000);
 		}
 		
-		// Toggle cart dropdown
+		// Bật/tắt dropdown giỏ hàng
 		function toggleCart(event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -849,7 +812,7 @@
 			if (cartDropdown) {
 				cartDropdown.classList.toggle('show');
 				
-				// Close when clicking outside
+				// Đóng khi click bên ngoài
 				if (cartDropdown.classList.contains('show')) {
 					document.addEventListener('click', function closeCart(e) {
 						if (!e.target.closest('.header-ctn')) {
@@ -862,23 +825,19 @@
 		}
 		
 		function updateCartDisplay(cart) {
-			console.log('📊 Updating cart display with:', cart);
-			
 			// Cập nhật số lượng trong header
 			const cartCountElement = document.getElementById('cart-count');
 			if (cartCountElement) {
 				cartCountElement.textContent = cart.totalItems || 0;
 			}
 			
-			// Reload page để cập nhật dropdown (simple approach)
+			// Tải lại trang để cập nhật dropdown
 			setTimeout(() => {
 				window.location.reload();
 			}, 1500);
 		}
 
 		function removeFromCart(productId) {
-			console.log('🗑️ Removing product:', productId);
-			
 			fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
 				method: 'POST',
 				headers: {
@@ -888,7 +847,6 @@
 			})
 			.then(response => response.json())
 			.then(data => {
-				console.log('📄 Remove response:', data);
 				if (data.success) {
 					showNotification('Đã xóa sản phẩm khỏi giỏ hàng');
 					updateCartDisplay(data);
@@ -897,7 +855,6 @@
 				}
 			})
 			.catch(error => {
-				console.error('❌ Remove error:', error);
 				showNotification('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng', true);
 			});
 		}

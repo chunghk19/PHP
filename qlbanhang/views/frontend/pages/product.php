@@ -344,9 +344,9 @@ if (!isset($categories)) {
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +84-123-456-789</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> support@tvstore.vn</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> Hà Nội, Việt Nam</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> 0982 905 207</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> tvstore@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> I - Tech</a></li>
 					</ul>
 					<ul class="header-links pull-right">
 						<!-- <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li> -->
@@ -390,6 +390,7 @@ if (!isset($categories)) {
 							<div class="header-logo">
 								<a href="/qlbanhang/frontend.php" class="logo">
 									<h2 style="color: #D10024; margin: 0; font-weight: bold;">TV Store</h2>
+									<p style="color: #666; margin: 0; font-size: 12px; text-align: center;">Nhóm 5</p>
 								</a>
 							</div>
 						</div>
@@ -417,17 +418,7 @@ if (!isset($categories)) {
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
-								<!-- Wishlist -->
-								<!-- <div>
-									<a href="#">
-										<i class="fa fa-heart-o"></i>
-										<span>Yêu thích</span>
-										<div class="qty">0</div>
-									</a>
-								</div> -->
-								<!-- /Wishlist -->
-
-								<!-- Cart -->
+								
 								<div>
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" onclick="toggleCart(event)">
 										<i class="fa fa-shopping-cart"></i>
@@ -993,25 +984,27 @@ if (!isset($categories)) {
 					<div class="row">
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">About Us</h3>
+								<h3 class="footer-title">Về Chúng Tôi</h3>
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
 								<ul class="footer-links">
-									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+									<li><a href="#"><i class="fa fa-map-marker"></i>I - Tech</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i>0982 905 207</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>tvstore@gmail.com</a></li>
 								</ul>
 							</div>
 						</div>
 
-						<div class="col-md-3 col-xs-6">
+												<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Categories</h3>
+								<h3 class="footer-title">Danh Mục</h3>
 								<ul class="footer-links">
-									<li><a href="#">Hot deals</a></li>
-									<li><a href="#">Laptops</a></li>
-									<li><a href="#">Smartphones</a></li>
-									<li><a href="#">Cameras</a></li>
-									<li><a href="#">Accessories</a></li>
+									
+									<li><a href="#">Tivi Samsung</a></li>
+									<li><a href="#">Tivi LG</a></li>
+									<li><a href="#">Tivi Sony</a></li>
+									<li><a href="#">Tivi Xiaomi</a></li>
+									<li><a href="#">Tivi Toshiba</a></li>
+									
 								</ul>
 							</div>
 						</div>
@@ -1020,26 +1013,26 @@ if (!isset($categories)) {
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Information</h3>
+								<h3 class="footer-title">Thông Tin</h3>
 								<ul class="footer-links">
-									<li><a href="#">About Us</a></li>
-									<li><a href="#">Contact Us</a></li>
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">Orders and Returns</a></li>
-									<li><a href="#">Terms & Conditions</a></li>
+									<li><a href="#">Thông tin</a></li>
+									<li><a href="#">Liên hệ </a></li>
+									<li><a href="#">Chính sách bảo mật</a></li>
+									<li><a href="#">Đơn hàng và trả hàng</a></li>
+									<li><a href="#">Điều khoản & Điều kiện</a></li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Service</h3>
+								<h3 class="footer-title">Dịch Vụ</h3>
 								<ul class="footer-links">
-									<li><a href="#">My Account</a></li>
-									<li><a href="#">View Cart</a></li>
-									<li><a href="#">Wishlist</a></li>
-									<li><a href="#">Track My Order</a></li>
-									<li><a href="#">Help</a></li>
+									<li><a href="#">Tài khoản </a></li>
+									<li><a href="#">Giỏ hàng</a></li>
+									<li><a href="#">Danh sách yêu thích</a></li>
+									<li><a href="#">Theo dõi đơn hàng</a></li>
+									<li><a href="#">Trợ giúp</a></li>
 								</ul>
 							</div>
 						</div>
@@ -1079,25 +1072,21 @@ if (!isset($categories)) {
 		</footer>
 		<!-- /FOOTER -->
 
-		<!-- jQuery Plugins -->
+		<!-- Thư viện JavaScript cần thiết -->
 		<script src="/qlbanhang/public/assets/js/frontend/jquery.min.js"></script>
 		<script src="/qlbanhang/public/assets/js/frontend/bootstrap.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/slick.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/nouislider.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/jquery.zoom.min.js"></script>
-		<script src="/qlbanhang/public/assets/js/frontend/main.js"></script>
 		
-		<!-- Main functionality script like home.php -->
+		<!-- Script chức năng chính -->
 		<script>
-		// Show notification function
+		// Hiển thị thông báo
 		function showNotification(message, isError = false) {
-			// Remove existing notification
+			// Xóa thông báo đã có
 			const existingNotification = document.querySelector('.cart-notification');
 			if (existingNotification) {
 				existingNotification.remove();
 			}
 			
-			// Create new notification
+			// Tạo thông báo mới
 			const notification = document.createElement('div');
 			notification.className = 'cart-notification' + (isError ? ' error' : '');
 			notification.innerHTML = `
@@ -1274,284 +1263,6 @@ if (!isset($categories)) {
 					}
 				});
 			}
-		});
-		</script>
-
-	</body>
-</html>
-			
-			navDropdowns.forEach(function(dropdown) {
-				const dropdownMenu = dropdown.querySelector('.dropdown-menu');
-				console.log('📋 Dropdown menu found:', dropdownMenu);
-				
-				if (dropdownMenu) {
-					// Mouse enter
-					dropdown.addEventListener('mouseenter', function() {
-						console.log('🖱️ Mouse enter dropdown in product.php');
-						dropdownMenu.style.opacity = '1';
-						dropdownMenu.style.visibility = 'visible';
-						dropdownMenu.style.transform = 'translateY(0)';
-						dropdownMenu.style.display = 'block';
-					});
-					
-					// Mouse leave
-					dropdown.addEventListener('mouseleave', function() {
-						console.log('🖱️ Mouse leave dropdown in product.php');
-						dropdownMenu.style.opacity = '0';
-						dropdownMenu.style.visibility = 'hidden';
-						dropdownMenu.style.transform = 'translateY(-10px)';
-					});
-				}
-			});
-
-			// Quantity input controls
-			const quantityInput = document.getElementById('product-quantity');
-			const qtyUp = document.querySelector('.qty-up');
-			const qtyDown = document.querySelector('.qty-down');
-
-			if (qtyUp && quantityInput) {
-				qtyUp.addEventListener('click', function() {
-					let currentValue = parseInt(quantityInput.value) || 1;
-					quantityInput.value = currentValue + 1;
-				});
-			}
-
-			if (qtyDown && quantityInput) {
-				qtyDown.addEventListener('click', function() {
-					let currentValue = parseInt(quantityInput.value) || 1;
-					if (currentValue > 1) {
-						quantityInput.value = currentValue - 1;
-					}
-				});
-			}
-
-			// Show notification function
-			function showNotification(message, isError = false) {
-				// Remove existing notification
-				const existingNotification = document.querySelector('.cart-notification');
-				if (existingNotification) {
-					existingNotification.remove();
-				}
-				
-				// Create new notification
-				const notification = document.createElement('div');
-				notification.className = 'cart-notification' + (isError ? ' error' : '');
-				notification.innerHTML = `
-					<i class="fa fa-shopping-cart"></i>
-					<span>${message}</span>
-				`;
-				
-				document.body.appendChild(notification);
-				
-				// Show notification
-				setTimeout(() => notification.classList.add('show'), 100);
-				
-				// Hide notification after 3 seconds
-				setTimeout(() => {
-					notification.classList.remove('show');
-					setTimeout(() => notification.remove(), 300);
-				}, 3000);
-			}
-
-			function updateCartDisplay(cart) {
-				console.log('📊 Updating cart display with:', cart);
-				
-				// Cập nhật số lượng trong header
-				const cartCountElement = document.getElementById('cart-count');
-				if (cartCountElement) {
-					cartCountElement.textContent = cart.totalItems || 0;
-				}
-				
-				// Reload page để cập nhật dropdown (simple approach)
-				setTimeout(() => {
-					window.location.reload();
-				}, 1500);
-			}
-
-			// Add to cart functionality
-			const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-			console.log('🔍 Found add to cart buttons:', addToCartButtons.length);
-			
-			addToCartButtons.forEach(function(button) {
-				button.addEventListener('click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					
-					const productId = this.getAttribute('data-product-id');
-					if (!productId) {
-						showNotification('Không tìm thấy thông tin sản phẩm', true);
-						return;
-					}
-
-					// Get quantity (only for main product, related products use quantity 1)
-					let quantity = 1;
-					if (quantityInput && this.closest('.product-details')) {
-						quantity = parseInt(quantityInput.value) || 1;
-					}
-					
-					console.log('🛍️ Adding product:', productId, 'quantity:', quantity);
-					
-					// Disable button temporarily
-					this.disabled = true;
-					this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang thêm...';
-					
-					// Send AJAX request
-					const formData = new FormData();
-					formData.append('product_id', productId);
-					formData.append('quantity', quantity);
-					
-					fetch('/qlbanhang/frontend.php?action=add-to-cart', {
-						method: 'POST',
-						body: formData
-					})
-					.then(response => {
-						console.log('📥 Response status:', response.status);
-						return response.json();
-					})
-					.then(data => {
-						console.log('✅ Response data:', data);
-						
-						if (data.success) {
-							showNotification('Đã thêm vào giỏ hàng thành công! 🎉');
-							updateCartDisplay(data);
-						} else {
-							showNotification('Lỗi: ' + data.message, true);
-						}
-					})
-					.catch(error => {
-						console.error('❌ Error:', error);
-						showNotification('Có lỗi xảy ra', true);
-					})
-					.finally(() => {
-						// Re-enable button
-						this.disabled = false;
-						this.innerHTML = '<i class="fa fa-shopping-cart"></i> Thêm vào giỏ';
-					});
-				});
-			});
-
-			// Show notification function
-			function showNotification(message, isError = false) {
-				// Remove existing notification
-				const existingNotification = document.querySelector('.cart-notification');
-				if (existingNotification) {
-					existingNotification.remove();
-				}
-				
-				// Create new notification
-				const notification = document.createElement('div');
-				notification.className = 'cart-notification' + (isError ? ' error' : '');
-				notification.innerHTML = `
-					<i class="fa fa-shopping-cart"></i>
-					<span>${message}</span>
-				`;
-				
-				document.body.appendChild(notification);
-				
-				// Show notification
-				setTimeout(() => notification.classList.add('show'), 100);
-				
-				// Hide notification after 3 seconds
-				setTimeout(() => {
-					notification.classList.remove('show');
-					setTimeout(() => notification.remove(), 300);
-				}, 3000);
-			}
-
-			// Update cart display function
-			function updateCartDisplay(cart) {
-				console.log('📊 Updating cart display with:', cart);
-				
-				// Cập nhật số lượng trong header
-				const cartCountElement = document.getElementById('cart-count');
-				if (cartCountElement) {
-					cartCountElement.textContent = cart.totalItems || 0;
-				}
-				
-				// Reload page để cập nhật dropdown (simple approach)
-				setTimeout(() => {
-					window.location.reload();
-				}, 1500);
-			}
-
-			// Toggle cart dropdown
-			function toggleCart(event) {
-				event.preventDefault();
-				event.stopPropagation();
-				
-				const cartDropdown = document.getElementById('cart-dropdown');
-				if (cartDropdown) {
-					cartDropdown.classList.toggle('show');
-					
-					// Close when clicking outside
-					if (cartDropdown.classList.contains('show')) {
-						document.addEventListener('click', function closeCart(e) {
-							if (!e.target.closest('.header-ctn')) {
-								cartDropdown.classList.remove('show');
-								document.removeEventListener('click', closeCart);
-							}
-						});
-					}
-				}
-			}
-
-			// Remove item from cart function
-			function removeFromCart(productId) {
-				console.log('🗑️ Removing product:', productId);
-				
-				fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-					},
-					body: `product_id=${productId}`
-				})
-				.then(response => response.json())
-				.then(data => {
-					console.log('📄 Remove response:', data);
-					if (data.success) {
-						showNotification('Đã xóa sản phẩm khỏi giỏ hàng');
-						updateCartDisplay(data);
-					} else {
-						showNotification('Có lỗi xảy ra khi xóa sản phẩm', true);
-					}
-				})
-				.catch(error => {
-					console.error('❌ Remove error:', error);
-					showNotification('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng', true);
-				});
-			}
-		});
-
-		// Event handlers for cart functionality
-		document.addEventListener('click', function(e) {
-			if (e.target.closest('.remove-from-cart')) {
-				e.preventDefault();
-				e.stopPropagation();
-				
-				const button = e.target.closest('.remove-from-cart');
-				const productId = button.dataset.productId;
-				console.log('�️ Remove from cart clicked for product:', productId);
-				
-				if (productId) {
-					removeFromCart(productId);
-				} else {
-					console.error('❌ No product ID found');
-				}
-			}
-		});
-
-		// Simple event listeners like home.php
-		document.addEventListener('DOMContentLoaded', function() {
-			console.log('DOM ready - attaching cart events');
-			
-			document.querySelectorAll('.remove-from-cart').forEach(button => {
-				button.addEventListener('click', function() {
-					const productId = this.dataset.productId;
-					console.log('Remove from cart button clicked for product:', productId);
-					removeFromCart(productId);
-				});
-			});
 		});
 		</script>
 

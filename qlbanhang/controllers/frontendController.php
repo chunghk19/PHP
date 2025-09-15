@@ -134,6 +134,7 @@ class FrontendController {
     public function store() {
         // Lấy filter parameters từ URL
         $selectedCategories = isset($_GET['categories']) ? explode(',', $_GET['categories']) : [];
+        $sortBy = isset($_GET['sort']) ? $_GET['sort'] : '';
         
         // Lấy tất cả sản phẩm để tính toán filter counts
         $allProducts = $this->productModel->getAllWithCategories();
@@ -147,6 +148,17 @@ class FrontendController {
             });
             // Reset array keys after filtering
             $products = array_values($products);
+        }
+        
+        // Sắp xếp sản phẩm theo giá
+        if ($sortBy === 'price_asc') {
+            usort($products, function($a, $b) {
+                return $a['price'] - $b['price'];
+            });
+        } elseif ($sortBy === 'price_desc') {
+            usort($products, function($a, $b) {
+                return $b['price'] - $a['price'];
+            });
         }
         
         // Lấy tất cả categories cho navigation

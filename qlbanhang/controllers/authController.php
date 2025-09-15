@@ -39,6 +39,11 @@ class AuthController
                 $_SESSION['user_role'] = $user['role'];
                 $_SESSION['success'] = 'Đăng nhập thành công!';
                 
+                // Load giỏ hàng từ database vào session
+                require_once 'controllers/cartController.php';
+                $cartController = new CartController();
+                $cartController->loadCartFromDatabase($user['id']);
+                
                 // Redirect về trang trước đó hoặc trang chủ
                 $redirect = $_SESSION['redirect_after_login'] ?? '/qlbanhang/frontend.php';
                 unset($_SESSION['redirect_after_login']);

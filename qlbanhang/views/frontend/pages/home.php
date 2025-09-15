@@ -238,8 +238,9 @@ if (!isset($featuredProducts)) {
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
-									<img src="/qlbanhang/public/assets/img/frontend/logo.png" alt="">
+								<a href="/qlbanhang/frontend.php" class="logo">
+									<h2 style="color: #D10024; margin: 0; font-weight: bold;">TV Store</h2>
+									<p style="color: #666; margin: 0; font-size: 12px; text-align: center;">Nhóm 5</p>
 								</a>
 							</div>
 						</div>
@@ -251,8 +252,11 @@ if (!isset($featuredProducts)) {
 								<form>
 									<select class="input-select">
 										<option value="0">Danh mục</option>
-										<option value="1">Danh mục 01</option>
-										<option value="1">Danh mục 02</option>
+										<option value="1">Tivi Samsung</option>
+										<option value="2">Tivi LG</option>
+										<option value="3">Tivi Sony</option>
+										<option value="4">Tivi Xiaomi</option>
+										<option value="5">Tivi Toshiba</option>
 									</select>
 									<input class="input" placeholder="Tìm kiếm">
 									<button class="search-btn">Tìm Kiếm</button>
@@ -441,10 +445,10 @@ if (!isset($featuredProducts)) {
 							<h3 class="title">Sản Phẩm Mới</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a data-toggle="tab" href="#tab1">Tivi OLED </a></li>
-									<li><a data-toggle="tab" href="#tab1">Tivi 4K</a></li>
-									<li><a data-toggle="tab" href="#tab1">Tivi QLED</a></li>
-									<!-- <li><a data-toggle="tab" href="#tab1">Accessories</a></li> -->
+									<li class="active"><a data-toggle="tab" href="#tab1">Tivi Samsung </a></li>
+									<li><a data-toggle="tab" href="#tab1">Tivi LG</a></li>
+									<li><a data-toggle="tab" href="#tab1">Tivi Sony</a></li>
+									
 								</ul>
 							</div>
 						</div>
@@ -668,20 +672,22 @@ if (!isset($featuredProducts)) {
 								<ul class="footer-links">
 									<li><a href="#"><i class="fa fa-map-marker"></i>I - Tech</a></li>
 									<li><a href="#"><i class="fa fa-phone"></i>0982 905 207</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>tvstore@email.com</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>tvstore@gmail.com</a></li>
 								</ul>
 							</div>
 						</div>
 
-						<div class="col-md-3 col-xs-6">
+												<div class="col-md-3 col-xs-6">
 							<div class="footer">
 								<h3 class="footer-title">Danh Mục</h3>
 								<ul class="footer-links">
-									<li><a href="#">Hot deals</a></li>
-									<li><a href="#">Tivi OLED</a></li>
-									<li><a href="#">Tivi 4K</a></li>
-									<li><a href="#">Tivi QLED</a></li>
-									<!-- <li><a href="#">Accessories</a></li> -->
+									
+									<li><a href="#">Tivi Samsung</a></li>
+									<li><a href="#">Tivi LG</a></li>
+									<li><a href="#">Tivi Sony</a></li>
+									<li><a href="#">Tivi Xiaomi</a></li>
+									<li><a href="#">Tivi Toshiba</a></li>
+									
 								</ul>
 							</div>
 						</div>

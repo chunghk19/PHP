@@ -131,6 +131,13 @@ class OrderController {
 
                 // Xóa giỏ hàng sau khi đặt hàng thành công
                 unset($_SESSION['cart']);
+                
+                // Nếu user đã login, xóa giỏ hàng database
+                if (isset($_SESSION['user_id'])) {
+                    require_once 'models/cart.php';
+                    $cartModel = new Cart();
+                    $cartModel->clearCart($_SESSION['user_id']);
+                }
 
                 // Trả về kết quả thành công
                 echo json_encode([

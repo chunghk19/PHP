@@ -1,4 +1,33 @@
 <?php
+// Bắt đầu session
+session_start();
+
+// Include helper functions
+require_once "helper/auth.php";
+
+// MIDDLEWARE BẢO MẬT - Kiểm tra quyền truy cập admin
+function checkAdminAccess() {
+    // Kiểm tra đăng nhập
+    if (!isLoggedIn()) {
+        $_SESSION['error'] = 'Vui lòng đăng nhập để truy cập trang quản trị!';
+        header('Location: /qlbanhang/frontend.php?action=login');
+        exit;
+    }
+    
+    // Kiểm tra quyền admin
+    if (!isAdmin()) {
+        $_SESSION['error'] = 'Bạn không có quyền truy cập trang quản trị!';
+        header('Location: /qlbanhang/frontend.php');
+        exit;
+    }
+}
+
+// Áp dụng middleware cho tất cả requests (trừ login)
+$action = $_GET['action'] ?? 'index';
+if ($action !== 'login') {
+    checkAdminAccess();
+}
+
 require_once "controllers/dashboardController.php";
 require_once "controllers/categoryController.php";
 require_once "controllers/productController.php";
@@ -6,13 +35,8 @@ require_once "controllers/orderController.php";
 require_once "controllers/userController.php";
 require_once "controllers/authController.php";
 
-// var_dump($_GET['page'], $_GET['action']);
-// die;
 // Tham số truy vấn lần 1 trên url (?page=...)
 $page = $_GET['page'] ?? 'dashboard';
-
-// Tham số truy vấn lần 2 trên url (?action=...)
-$action = $_GET['action'] ?? 'index';
 
 // Khởi tạo biến controller
 $controller = null;
