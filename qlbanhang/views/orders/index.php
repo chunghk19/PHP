@@ -127,6 +127,14 @@
                               $statusClass = '';
                               $statusText = '';
                               switch($order['status']) {
+                                case 'Đã đặt hàng':
+                                  $statusClass = 'badge-info';
+                                  $statusText = 'Đã đặt hàng';
+                                  break;
+                                case 'ordered':
+                                  $statusClass = 'badge-info';
+                                  $statusText = 'Đã đặt hàng';
+                                  break;
                                 case 'pending':
                                   $statusClass = 'badge-warning';
                                   $statusText = 'Chờ xử lý';
@@ -149,7 +157,7 @@
                                   break;
                                 default:
                                   $statusClass = 'badge-secondary';
-                                  $statusText = $order['status'];
+                                  $statusText = $order['status'] ?: 'Không xác định';
                               }
                               ?>
                               <span class="badge <?php echo $statusClass; ?>"><?php echo $statusText; ?></span>
@@ -187,7 +195,7 @@
               <ul></ul>
             </nav>
             <div class="credits ml-auto">
-              <span class="copyright">ChungLee</span>
+              <span class="copyright">Nhóm 5</span>
             </div>
           </div>
         </div>

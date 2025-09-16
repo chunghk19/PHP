@@ -177,7 +177,7 @@
               <ul></ul>
             </nav>
             <div class="credits ml-auto">
-              <span class="copyright">ChungLee</span>
+              <span class="copyright">Nhóm 5</span>
             </div>
           </div>
         </div>

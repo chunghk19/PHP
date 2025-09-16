@@ -146,18 +146,7 @@
                             <?php endif; ?>
                           </td>
                         </tr>
-                        <tr>
-                          <th>Địa chỉ:</th>
-                          <td><?php echo htmlspecialchars($user['address']) ?: 'Chưa cập nhật'; ?></td>
-                        </tr>
-                        <tr>
-                          <th>Ngày tạo:</th>
-                          <td><?php echo date('d/m/Y H:i:s', strtotime($user['created_at'])); ?></td>
-                        </tr>
-                        <tr>
-                          <th>Cập nhật lần cuối:</th>
-                          <td><?php echo date('d/m/Y H:i:s', strtotime($user['updated_at'])); ?></td>
-                        </tr>
+                        
                       </tbody>
                     </table>
                   </div>
@@ -236,7 +225,7 @@
               <ul></ul>
             </nav>
             <div class="credits ml-auto">
-              <span class="copyright">ChungLee</span>
+              <span class="copyright">Nhóm 5</span>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Helper functions cho phân quyền
+ *  phân quyền
  */
 
 // Kiểm tra user đã đăng nhập chưa

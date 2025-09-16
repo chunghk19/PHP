@@ -56,7 +56,7 @@ class Order {
     }
 
     // Tạo đơn hàng với thông tin khách hàng đầy đủ
-    public function createWithCustomerInfo($user_id, $customer_name, $customer_phone, $customer_email, $delivery_address, $total_price, $notes = '', $status = 'pending') {
+    public function createWithCustomerInfo($user_id, $customer_name, $customer_phone, $customer_email, $delivery_address, $total_price, $notes = '', $status = 'Đã đặt hàng') {
         $sql = "INSERT INTO orders (user_id, customer_name, customer_phone, customer_email, delivery_address, notes, order_date, status, total_price) 
                 VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?)";
         $stmt = $this->conn->prepare($sql);
