@@ -136,7 +136,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form action="/qlbanhang/frontend.php?action=register" method="POST">
+                <form action="/qlbanhang/index.php?action=register" method="POST">
                     <div class="form-group">
                         <label><i class="fa fa-user"></i> Họ và tên *</label>
                         <input type="text" class="form-control" name="full_name" 
@@ -205,12 +205,12 @@
 
                     <div class="text-center">
                         <p>Đã có tài khoản? 
-                            <a href="/qlbanhang/frontend.php?action=login" style="color: #D10024;">
+                            <a href="/qlbanhang/index.php?action=login" style="color: #D10024;">
                                 Đăng nhập ngay
                             </a>
                         </p>
                         <p>
-                            <a href="/qlbanhang/frontend.php" style="color: #666;">
+                            <a href="/qlbanhang/index.php" style="color: #666;">
                                 <i class="fa fa-arrow-left"></i> Quay về trang chủ
                             </a>
                         </p>

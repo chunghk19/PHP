@@ -32,7 +32,7 @@ function getCurrentUser() {
 }
 
 // Chuyển hướng nếu không có quyền
-function requireAdmin($redirectUrl = '/qlbanhang/frontend.php') {
+function requireAdmin($redirectUrl = '/qlbanhang/index.php') {
     if (!isAdmin()) {
         $_SESSION['error'] = 'Bạn không có quyền truy cập!';
         header("Location: $redirectUrl");
@@ -41,7 +41,7 @@ function requireAdmin($redirectUrl = '/qlbanhang/frontend.php') {
 }
 
 // Chuyển hướng nếu chưa đăng nhập
-function requireLogin($redirectUrl = '/qlbanhang/frontend.php?action=login') {
+function requireLogin($redirectUrl = '/qlbanhang/index.php?action=login') {
     if (!isLoggedIn()) {
         $_SESSION['error'] = 'Vui lòng đăng nhập!';
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];

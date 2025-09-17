@@ -2,7 +2,7 @@
 // Debug: kiểm tra dữ liệu được truyền từ controller
 if (!isset($product)) {
     // Nếu không có dữ liệu từ controller, redirect về trang chủ
-    header('Location: /qlbanhang/frontend.php');
+    header('Location: /qlbanhang/index.php');
     exit;
 }
 
@@ -369,10 +369,10 @@ if (!isset($categories)) {
 							<?php if ($currentUser['role'] === 'admin'): ?>
 								<li><a href="/qlbanhang/admin.php"><i class="fa fa-cog"></i> Quản trị</a></li>
 							<?php endif; ?>
-							<li><a href="/qlbanhang/frontend.php?action=logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+							<li><a href="/qlbanhang/index.php?action=logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
 						<?php else: ?>
-							<li><a href="/qlbanhang/frontend.php?action=login"><i class="fa fa-sign-in"></i> Đăng nhập</a></li>
-							<li><a href="/qlbanhang/frontend.php?action=register"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
+							<li><a href="/qlbanhang/index.php?action=login"><i class="fa fa-sign-in"></i> Đăng nhập</a></li>
+							<li><a href="/qlbanhang/index.php?action=register"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
 						<?php endif; ?>
 					</ul>
 				</div>
@@ -388,7 +388,7 @@ if (!isset($categories)) {
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="/qlbanhang/frontend.php" class="logo">
+								<a href="/qlbanhang/index.php" class="logo">
 									<h2 style="color: #D10024; margin: 0; font-weight: bold;">TV Store</h2>
 									<p style="color: #666; margin: 0; font-size: 12px; text-align: center;">Nhóm 5</p>
 								</a>
@@ -461,7 +461,7 @@ if (!isset($categories)) {
 												<h5 id="cart-total-price">TỔNG: <?= number_format($totalPrice ?? 0) ?>đ</h5>
 											</div>
 											<div class="cart-btns">
-												<a href="/qlbanhang/frontend.php?page=checkout" class="btn-checkout-only">Đặt Hàng  <i class="fa fa-arrow-circle-right"></i></a>
+												<a href="/qlbanhang/index.php?page=checkout" class="btn-checkout-only">Đặt Hàng  <i class="fa fa-arrow-circle-right"></i></a>
 											</div>
 										<?php endif; ?>
 									</div>
@@ -496,18 +496,18 @@ if (!isset($categories)) {
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
+						<li><a href="/qlbanhang/index.php">Trang chủ</a></li>
 						<li class="dropdown" style="position: relative;">
-							<a href="/qlbanhang/frontend.php?page=store" class="dropdown-toggle">
+							<a href="/qlbanhang/index.php?page=store" class="dropdown-toggle">
 								Tất cả sản phẩm <i class="fa fa-angle-down"></i>
 							</a>
 							<ul class="dropdown-menu" style="position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e4e7ed; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; display: block; list-style: none; padding: 0; margin: 0;">
 							
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Samsung" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi LG" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Sony" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Xiaomi" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
-								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&categories=Tivi Toshiba" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&categories=Tivi Samsung" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&categories=Tivi LG" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&categories=Tivi Sony" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&categories=Tivi Xiaomi" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
+								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&categories=Tivi Toshiba" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -527,8 +527,8 @@ if (!isset($categories)) {
 				<div class="row">
 					<div class="col-md-12">
 						<ul class="breadcrumb-tree">
-							<li><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
-							<li><a href="/qlbanhang/frontend.php?page=products">Sản phẩm</a></li>
+							<li><a href="/qlbanhang/index.php">Trang chủ</a></li>
+							<li><a href="/qlbanhang/index.php?page=products">Sản phẩm</a></li>
 							<li class="active"><?= isset($product) ? htmlspecialchars($product['name']) : 'Chi tiết sản phẩm' ?></li>
 						</ul>
 					</div>
@@ -624,7 +624,7 @@ if (!isset($categories)) {
 								<li>Danh mục:</li>
 								<li>
 									<?php if (isset($product)): ?>
-										<a href="/qlbanhang/frontend.php?page=products&category=<?= $product['category_id'] ?>">
+										<a href="/qlbanhang/index.php?page=products&category=<?= $product['category_id'] ?>">
 											<?= htmlspecialchars($product['category_name']) ?>
 										</a>
 									<?php else: ?>
@@ -903,7 +903,7 @@ if (!isset($categories)) {
 									</div>
 									<div class="product-body">
 										<p class="product-category"><?= htmlspecialchars($relatedProduct['category_name']) ?></p>
-										<h3 class="product-name"><a href="/qlbanhang/frontend.php?page=product-detail&id=<?= $relatedProduct['id'] ?>"><?= htmlspecialchars($relatedProduct['name']) ?></a></h3>
+										<h3 class="product-name"><a href="/qlbanhang/index.php?page=product-detail&id=<?= $relatedProduct['id'] ?>"><?= htmlspecialchars($relatedProduct['name']) ?></a></h3>
 										<h4 class="product-price"><?= number_format($relatedProduct['price'], 0, ',', '.') ?>₫</h4>
 										<div class="product-rating">
 											<i class="fa fa-star"></i>
@@ -1126,7 +1126,7 @@ if (!isset($categories)) {
 		function removeFromCart(productId) {
 			console.log('�️ Removing product:', productId);
 			
-			fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
+			fetch('/qlbanhang/index.php?action=remove-from-cart', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
@@ -1216,7 +1216,7 @@ if (!isset($categories)) {
 					formData.append('product_id', productId);
 					formData.append('quantity', quantity);
 					
-					fetch('/qlbanhang/frontend.php?action=add-to-cart', {
+					fetch('/qlbanhang/index.php?action=add-to-cart', {
 						method: 'POST',
 						body: formData
 					})

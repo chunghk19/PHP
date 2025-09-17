@@ -283,10 +283,10 @@
 							<?php if ($currentUser['role'] === 'admin'): ?>
 								<li><a href="/qlbanhang/admin.php"><i class="fa fa-cog"></i> Quản trị</a></li>
 							<?php endif; ?>
-							<li><a href="/qlbanhang/frontend.php?action=logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+							<li><a href="/qlbanhang/index.php?action=logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
 						<?php else: ?>
-							<li><a href="/qlbanhang/frontend.php?action=login"><i class="fa fa-sign-in"></i> Đăng nhập</a></li>
-							<li><a href="/qlbanhang/frontend.php?action=register"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
+							<li><a href="/qlbanhang/index.php?action=login"><i class="fa fa-sign-in"></i> Đăng nhập</a></li>
+							<li><a href="/qlbanhang/index.php?action=register"><i class="fa fa-user-plus"></i> Đăng ký</a></li>
 						<?php endif; ?>
 					</ul>
 				</div>
@@ -302,7 +302,7 @@
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="/qlbanhang/frontend.php" class="logo">
+								<a href="/qlbanhang/index.php" class="logo">
 									<h2 style="color: #D10024; margin: 0; font-weight: bold;">TV Store</h2>
 									<p style="color: #666; margin: 0; font-size: 12px; text-align: center;">Nhóm 5</p>
 								</a>
@@ -380,7 +380,7 @@
 												<h5 id="cart-total-price">TỔNG: <?= number_format($totalPrice ?? 0) ?>đ</h5>
 											</div>
 											<div class="cart-btns">
-												<a href="/qlbanhang/frontend.php?page=checkout" class="btn-checkout-only">Đặt Hàng  <i class="fa fa-arrow-circle-right"></i></a>
+												<a href="/qlbanhang/index.php?page=checkout" class="btn-checkout-only">Đặt Hàng  <i class="fa fa-arrow-circle-right"></i></a>
 											</div>
 										<?php endif; ?>
 									</div>
@@ -415,18 +415,18 @@
 				<div id="responsive-nav">
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="/qlbanhang/frontend.php">Trang chủ</a></li>
+						<li class="active"><a href="/qlbanhang/index.php">Trang chủ</a></li>
 						<li class="dropdown" style="position: relative;">
-							<a href="/qlbanhang/frontend.php?page=store" class="dropdown-toggle">
+							<a href="/qlbanhang/index.php?page=store" class="dropdown-toggle">
 								Tất cả sản phẩm <i class="fa fa-angle-down"></i>
 							</a>
 							<ul class="dropdown-menu" style="position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e4e7ed; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; display: block; list-style: none; padding: 0; margin: 0;">
 								
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&category=3" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&category=4" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&category=5" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
-								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&category=6" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
-								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/frontend.php?page=store&category=7" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&category=3" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Samsung</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&category=4" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi LG</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&category=5" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Sony</a></li>
+								<li style="display: block; border-bottom: 1px solid #f0f0f0; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&category=6" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Xiaomi</a></li>
+								<li style="display: block; border-bottom: none; width: 100%; float: none;"><a href="/qlbanhang/index.php?page=store&category=7" style="display: block; padding: 10px 15px; color: #333; text-decoration: none; transition: all 0.3s ease; text-transform: none; font-size: 14px;">Tivi Toshiba</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -798,7 +798,7 @@
 
 		// Remove from cart function
 		function removeFromCart(productId) {
-			fetch('/qlbanhang/frontend.php?action=remove-from-cart', {
+			fetch('/qlbanhang/index.php?action=remove-from-cart', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
@@ -876,7 +876,7 @@
 			submitBtn.disabled = true;
 
 			// Gửi request
-			fetch('frontend.php?action=place-order', {
+			fetch('index.php?action=place-order', {
 				method: 'POST',
 				body: formData
 			})
@@ -886,7 +886,7 @@
 					showNotification(data.message, 'success');
 					// Chuyển về trang chủ sau 2 giây
 					setTimeout(() => {
-						window.location.href = 'frontend.php?page=home';
+						window.location.href = 'index.php?page=home';
 					}, 2000);
 				} else {
 					showNotification(data.message, 'error');

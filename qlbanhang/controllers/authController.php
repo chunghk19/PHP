@@ -27,7 +27,7 @@ class AuthController
 
             if (empty($emailOrUsername) || empty($password)) {
                 $_SESSION['error'] = 'Vui lòng nhập đầy đủ thông tin!';
-                header('Location: /qlbanhang/frontend.php?action=login');
+                header('Location: /qlbanhang/index.php?action=login');
                 exit;
             }
 
@@ -45,13 +45,13 @@ class AuthController
                 $cartController->loadCartFromDatabase($user['id']);
                 
                 // Redirect về trang trước đó hoặc trang chủ
-                $redirect = $_SESSION['redirect_after_login'] ?? '/qlbanhang/frontend.php';
+                $redirect = $_SESSION['redirect_after_login'] ?? '/qlbanhang/index.php';
                 unset($_SESSION['redirect_after_login']);
                 header("Location: $redirect");
                 exit;
             } else {
                 $_SESSION['error'] = 'Thông tin đăng nhập không chính xác!';
-                header('Location: /qlbanhang/frontend.php?action=login');
+                header('Location: /qlbanhang/index.php?action=login');
                 exit;
             }
         }
@@ -77,25 +77,25 @@ class AuthController
             // Validation
             if (empty($full_name) || empty($user_name) || empty($email) || empty($password)) {
                 $_SESSION['error'] = 'Vui lòng nhập đầy đủ thông tin bắt buộc!';
-                header('Location: /qlbanhang/frontend.php?action=register');
+                header('Location: /qlbanhang/index.php?action=register');
                 exit;
             }
 
             if ($password !== $confirm_password) {
                 $_SESSION['error'] = 'Mật khẩu xác nhận không khớp!';
-                header('Location: /qlbanhang/frontend.php?action=register');
+                header('Location: /qlbanhang/index.php?action=register');
                 exit;
             }
 
             if (strlen($password) < 6) {
                 $_SESSION['error'] = 'Mật khẩu phải có ít nhất 6 ký tự!';
-                header('Location: /qlbanhang/frontend.php?action=register');
+                header('Location: /qlbanhang/index.php?action=register');
                 exit;
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $_SESSION['error'] = 'Email không hợp lệ!';
-                header('Location: /qlbanhang/frontend.php?action=register');
+                header('Location: /qlbanhang/index.php?action=register');
                 exit;
             }
 
@@ -104,11 +104,11 @@ class AuthController
             
             if ($result) {
                 $_SESSION['success'] = 'Đăng ký thành công! Vui lòng đăng nhập.';
-                header('Location: /qlbanhang/frontend.php?action=login');
+                header('Location: /qlbanhang/index.php?action=login');
                 exit;
             } else {
                 $_SESSION['error'] = 'Email hoặc tên đăng nhập đã tồn tại!';
-                header('Location: /qlbanhang/frontend.php?action=register');
+                header('Location: /qlbanhang/index.php?action=register');
                 exit;
             }
         }
@@ -120,7 +120,7 @@ class AuthController
         session_destroy();
         session_start();
         $_SESSION['success'] = 'Đăng xuất thành công!';
-        header('Location: /qlbanhang/frontend.php');
+        header('Location: /qlbanhang/index.php');
         exit;
     }
 
@@ -155,7 +155,7 @@ class AuthController
         if (!$this->isLoggedIn()) {
             $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
             $_SESSION['error'] = 'Vui lòng đăng nhập để tiếp tục!';
-            header('Location: /qlbanhang/frontend.php?action=login');
+            header('Location: /qlbanhang/index.php?action=login');
             exit;
         }
     }

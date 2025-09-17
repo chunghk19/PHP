@@ -10,14 +10,14 @@ function checkAdminAccess() {
     // Kiểm tra đăng nhập
     if (!isLoggedIn()) {
         $_SESSION['error'] = 'Vui lòng đăng nhập để truy cập trang quản trị!';
-        header('Location: /qlbanhang/frontend.php?action=login');
+        header('Location: /qlbanhang/index.php?action=login');
         exit;
     }
     
     // Kiểm tra quyền admin
     if (!isAdmin()) {
         $_SESSION['error'] = 'Bạn không có quyền truy cập trang quản trị!';
-        header('Location: /qlbanhang/frontend.php');
+        header('Location: /qlbanhang/index.php');
         exit;
     }
 }

@@ -41,7 +41,7 @@ class Cart {
     formData.append("product_id", productId);
     formData.append("quantity", quantity);
 
-    fetch("/qlbanhang/frontend.php?action=add-to-cart", {
+    fetch("/qlbanhang/index.php?action=add-to-cart", {
       method: "POST",
       body: formData,
     })
@@ -70,7 +70,7 @@ class Cart {
     const formData = new FormData();
     formData.append("product_id", productId);
 
-    fetch("/qlbanhang/frontend.php?action=remove-from-cart", {
+    fetch("/qlbanhang/index.php?action=remove-from-cart", {
       method: "POST",
       body: formData,
     })
@@ -100,7 +100,7 @@ class Cart {
 
   // Cập nhật hiển thị cart dropdown
   updateCartDisplay() {
-    fetch("/qlbanhang/frontend.php?action=get-cart")
+    fetch("/qlbanhang/index.php?action=get-cart")
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {

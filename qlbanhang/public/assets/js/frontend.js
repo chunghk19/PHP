@@ -35,7 +35,7 @@ function loadCategories() {
     categories.forEach((category) => {
       const li = document.createElement("li");
       li.innerHTML = `
-                <a class="dropdown-item" href="/qlbanhang/frontend.php?page=products&category=${category.id}">
+                <a class="dropdown-item" href="/qlbanhang/index.php?page=products&category=${category.id}">
                     <i class="fas fa-angle-right me-2"></i> ${category.name}
                 </a>
             `;
@@ -50,7 +50,7 @@ function loadCategories() {
       const li = document.createElement("li");
       li.className = "mb-2";
       li.innerHTML = `
-                <a href="/qlbanhang/frontend.php?page=products&category=${category.id}" 
+                <a href="/qlbanhang/index.php?page=products&category=${category.id}" 
                    class="text-muted text-decoration-none">
                     <i class="fas fa-angle-right"></i> ${category.name}
                 </a>
